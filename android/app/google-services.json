@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "714169209424",
+    "firebase_url": "https://toko-romi.firebaseio.com",
+    "project_id": "toko-romi",
+    "storage_bucket": "toko-romi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714169209424:android:cdcdf6f013a9272b3d3755",
+        "android_client_info": {
+          "package_name": "com.example.toko_romi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714169209424-uhtd0sdf3bb8vgbhhcfobe5hsgpskq5h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.toko_romi",
+            "certificate_hash": "4919bdbe262144f0f2bc7f195dddd5aaf2c5ccb1"
+          }
+        },
+        {
+          "client_id": "714169209424-27hfg7nkbna7jm18luaarp13jsau0uj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEWt1eMA5CeLxwsOV4OzhHhjoSdthyPFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714169209424-27hfg7nkbna7jm18luaarp13jsau0uj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

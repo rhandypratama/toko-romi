@@ -1,0 +1,39 @@
+name: toko_romi
+description: Toko berbasis online
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  cupertino_icons: ^0.1.3
+  cloud_firestore:
+  intl: ^0.16.1
+  shared_preferences:
+  flutter_svg:
+  flutter_launcher_icons:
+  cached_network_image:
+  flutter_open_whatsapp:
+  uuid:
+  firebase_storage:
+  image_picker: ^0.6.7+4
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/images/toko.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/packs/
+    - assets/icons/
