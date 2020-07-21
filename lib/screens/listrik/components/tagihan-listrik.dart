@@ -128,6 +128,7 @@ class _TagihanListrikState extends State<TagihanListrik> {
         labelText: "No. Meter / ID Pelanggan",
         labelStyle: TextStyle(fontSize: 20.0),
         contentPadding: EdgeInsets.symmetric(vertical: 20),
+        helperText: "Contoh : 56703073751"
       ),
       style: TextStyle(fontSize: 28),
       // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),

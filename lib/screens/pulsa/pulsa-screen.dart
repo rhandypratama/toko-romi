@@ -151,6 +151,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
         labelText: "Nomor Handphone",
         labelStyle: TextStyle(fontSize: 20.0),
         contentPadding: EdgeInsets.symmetric(vertical: 20),
+        helperText: "Contoh : 08123456789"
       ),
       style: TextStyle(fontSize: 28),
       // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),

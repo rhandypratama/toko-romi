@@ -6,20 +6,18 @@ import 'package:intl/intl.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
-class TarikScreen extends StatefulWidget {
+class BpjsScreen extends StatefulWidget {
   @override
-  TarikScreenState createState() => TarikScreenState();
+  BpjsScreenState createState() => BpjsScreenState();
 }
 
-class TarikScreenState extends State<TarikScreen> {
+class BpjsScreenState extends State<BpjsScreen> {
   final Color color1 = Color(0xffFA696C);
   final Color color2 = Color(0xffFA8165);
   final Color color3 = Color(0xffFB8964);
 
-  final FocusNode _passwordFocus = FocusNode();
-  final FocusNode _emailFocus = FocusNode();
-  final namaPenerimaController = TextEditingController();
-  final nominalController = TextEditingController();
+  final FocusNode _vaFocus = FocusNode();
+  final noVaController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   String currentCat = "";
   final f = NumberFormat('#,##0', 'id_ID');
@@ -32,8 +30,7 @@ class TarikScreenState extends State<TarikScreen> {
   @override
   void dispose(){
     super.dispose();
-    namaPenerimaController.dispose();
-    nominalController.dispose();
+    noVaController.dispose();
   }
 
   void _showSnackBarMessage(String message) {
@@ -55,7 +52,7 @@ class TarikScreenState extends State<TarikScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Tarik Tunai", color: Colors.black),
+        title: dynamicText("BPJS Kesehatan", color: Colors.black),
       
       ),
       body: Column(
@@ -65,17 +62,13 @@ class TarikScreenState extends State<TarikScreen> {
               color: Colors.white,
               child: ListView(
                 children: <Widget>[
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                  //   child: bankField()
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                  //   child: noHpField()
-                  // ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
+                    child: noVaField()
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                    child: nominalField()
+                    child: bulanField()
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30.0),
@@ -101,18 +94,19 @@ class TarikScreenState extends State<TarikScreen> {
                         Expanded(
                           child: defaultButton(
                             context, 
-                            "tarik tunai sekarang", 
+                            "bayar bpjs sekarang", 
                             onPress: () async {
                               try {
-                                if (nominalController.text == "") {
-                                  _showSnackBarMessage("Nominal penarikan wajib diisi");
+                                if (noVaController.text == "") {
+                                  _showSnackBarMessage("No VA Keluarga wajib diisi");
+                                } else if (currentCat == "") {
+                                  _showSnackBarMessage("Pilih bulan yang tersedia");
                                 } else {
-                                  // print(f.format(int.parse(nominalController.text)));
-                                  // print("${f.format(int.parse(nominalController.text))}");
+                                  // print('BPJS ${noVaController.text} | $currentCat');
                                   var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
                                   FlutterOpenWhatsapp.sendSingleMessage(
                                     nomorAdmin,
-                                    'TARIK TUNAI ${f.format(int.parse(nominalController.text))}'
+                                    'BPJS ${noVaController.text} | $currentCat'
                                   );
                                 }
                                 
@@ -136,61 +130,36 @@ class TarikScreenState extends State<TarikScreen> {
     );
   }
 
-  Widget noHpField() {
+  Widget noVaField() {
     return TextFormField(
-      controller: namaPenerimaController,
+      controller: noVaController,
       autocorrect: false,
-      // cursorColor: SwatchColor.kLightBlueGreen,
       textInputAction: TextInputAction.next,
       textCapitalization: TextCapitalization.none,
-      focusNode: _emailFocus,
+      focusNode: _vaFocus,
       onFieldSubmitted: (term) {
-        fieldFocusChange(context, _emailFocus, _passwordFocus);
+        _vaFocus.unfocus();
       },
-      // style: textFieldStyle,
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        labelText: "Nama Penerima",
-        labelStyle: TextStyle(fontSize: 20.0),
-        contentPadding: EdgeInsets.symmetric(vertical: 20),
-      ),
-      style: TextStyle(fontSize: 28),
-      // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
-    );
-      
-  }
-
-  Widget nominalField() {
-    return TextFormField(
-      controller: nominalController,
-      autocorrect: false,
-      // cursorColor: SwatchColor.kLightBlueGreen,
-      textInputAction: TextInputAction.next,
-      textCapitalization: TextCapitalization.none,
-      focusNode: _passwordFocus,
-      onFieldSubmitted: (term) {
-        _passwordFocus.unfocus();
-      },
-      // style: textFieldStyle,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        labelText: "Nominal Penarikan",
+        labelText: "No. VA Keluarga",
         labelStyle: TextStyle(fontSize: 20.0),
         contentPadding: EdgeInsets.symmetric(vertical: 20),
-        helperText: "Contoh : 1400000 (tanpa titik / koma)"
+        helperText: "Contoh : 0001234567890"
       ),
       style: TextStyle(fontSize: 28),
+      
       // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
     );
       
   }
 
-  Widget bankField() {
+  Widget bulanField() {
     return DropdownButtonFormField(
       isDense: false,
       itemHeight: 50,
-      hint: dynamicText("Pilih bank tujuan yang tersedia", fontSize: 20),
-      items: ['BCA', 'BRI', 'BNI', 'BTN', 'BUKOPIN', 'CIMB NIAGA', 'DANAMON', 'MANDIRI', 'MEGA', 'PERMATA'].map((String x) {
+      hint: dynamicText("Pilih bulan", fontSize: 20),
+      items: ['1 Bulan', '2 Bulan', '3 Bulan', '4 Bulan', '5 Bulan', '6 Bulan', '7 Bulan', '8 Bulan', '9 Bulan', '10 Bulan', '11 Bulan', '12 Bulan'].map((String x) {
         return DropdownMenuItem<String>(
           value: x,
           child: dynamicText("$x", fontSize: 24)
@@ -225,15 +194,11 @@ class TarikScreenState extends State<TarikScreen> {
           ),
           
           SizedBox(height: 20,),
-          dynamicText("Pastikan nominal penarikan sudah benar", fontSize: 14),
-          SizedBox(height: 20,),
-          dynamicText("Untuk transaksi tarik tunai hanya melayani Bank BUMN (BRI, BNI, BTN, MANDIRI)", fontSize: 13, fontWeight: FontWeight.bold),
-          SizedBox(height: 10,),
-          dynamicText("Persiapkan kartu ATM kalian, agar tim kami bisa proses dengan segera", fontSize: 14),
+          dynamicText("Pastikan nomor VA keluarga sudah benar", fontSize: 14),
           SizedBox(height: 10,),
           dynamicText("Transaksi di atas jam operasional akan diproses ke-esokan harinya", fontSize: 14),
           SizedBox(height: 10,),
-          dynamicText("Semua bukti transaksi akan dikirim ke WhatsApp kalian", fontSize: 14),
+          dynamicText("Semua bukti pembayaran akan dikirim ke WhatsApp kalian", fontSize: 14),
           SizedBox(height: 10,),
           dynamicText("Apabila terjadi gangguan kami akan langsung memberikan informasi ke kalian melalui WhatsApp", fontSize: 14),
           

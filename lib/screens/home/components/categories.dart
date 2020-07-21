@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toko_romi/screens/bpjs/bpjs-screen.dart';
 import 'package:toko_romi/screens/listrik/listrik-screen.dart';
 import 'package:toko_romi/screens/makanan/makanan-screen.dart';
 import 'package:toko_romi/screens/pulsa/pulsa-screen.dart';
@@ -53,7 +54,7 @@ class _CategoriesState extends State<Categories> {
                   ),
                   mainMenu(
                     "assets/images/packs/wifi-connection.png",
-                    "Pulsa & Data",
+                    "Pulsa",
                     () {
                       navigationManager(context, PulsaScreen(), isPushReplaced: false);
                     }
@@ -74,7 +75,9 @@ class _CategoriesState extends State<Categories> {
                   mainMenu(
                     "assets/images/doctor.png",
                     "BPJS",
-                    () {}
+                    () {
+                      navigationManager(context, BpjsScreen(), isPushReplaced: false);
+                    }
                   ),
                   mainMenu(
                     "assets/images/money.png",
@@ -147,8 +150,42 @@ class _CategoriesState extends State<Categories> {
           GestureDetector(
             onTap: press,
             child: Container(
-              width: 60,
-              height: 60,
+              width: 50,
+              height: 50,
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                // border: Border.all(color: Colors.grey[100], width: 1.5),
+                border: Border.all(color: kKuning, width: 1.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Image.asset(
+                imgpath, height: 100,
+                // 'assets/images/logo.png',
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 7,
+          ),
+          dynamicText(title, fontSize: 10, color: Colors.black)
+        ],
+      ),
+    );
+  }
+
+  Widget mainMenuLainnya(String imgpath, String title, Function press) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 16.0),
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          GestureDetector(
+            onTap: press,
+            child: Container(
+              width: 54,
+              height: 54,
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -194,75 +231,80 @@ class _CategoriesState extends State<Categories> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 20.0),
-                dynamicText("Kategori Lainnya",
+                dynamicText("Pembayaran",
                     fontSize: 16.0,
                     fontWeight: FontWeight.w500,
                     textAlign: TextAlign.left),
-                SizedBox(height: 20.0),
+                SizedBox(height: 10.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    mainMenu(
+                    mainMenuLainnya(
                       "assets/images/motorbike.png",
                       "Angs Motor",
                       () {
                         
                       }
                     ),
-                    mainMenu(
-                      "assets/images/authority.png",
-                      "Pajak STNK",
-                      () {
-                        
-                      }
-                    ),
-                    mainMenu(
-                      "assets/images/truck.png",
-                      "Kirim Barang",
-                      () {
-                        
-                      }
-                    ),
-                    mainMenu(
+                    mainMenuLainnya(
                       "assets/images/business-and-finance.png",
                       "BNI Online",
                       () {
                         
                       }
                     ),
-                    
-                  ],
-                ),
-                
-                SizedBox(height: 30.0),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    mainMenu(
+                    mainMenuLainnya(
                       "assets/images/credit-card-payment.png",
                       "Top Up",
                       () {
                         
                       }
                     ),
-                    mainMenu(
+                    
+                  ],
+                ),
+                SizedBox(height: 10.0),
+                Divider(),
+                SizedBox(height: 10.0),
+                dynamicText("Jasa",
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    textAlign: TextAlign.left),
+                SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    mainMenuLainnya(
+                      "assets/images/authority.png",
+                      "Pajak STNK",
+                      () {
+                        
+                      }
+                    ),
+                    mainMenuLainnya(
+                      "assets/images/truck.png",
+                      "Kirim Barang",
+                      () {
+                        
+                      }
+                    ),
+                    mainMenuLainnya(
                       "assets/images/repair.png",
-                      "Bengkel Motor",
+                      "Bengkel",
                       () {
                         
                       }
                     ),
-                    mainMenu(
+                    mainMenuLainnya(
                       "assets/images/car-rental.png",
-                      "Travel & Rental",
+                      "Rental",
                       () {
                         
                       }
                     ),
-                    mainMenu(
+                    mainMenuLainnya(
                       "assets/images/electric-service.png",
-                      "Service Elektro",
+                      "Service",
                       () {
                         
                       }
@@ -270,7 +312,28 @@ class _CategoriesState extends State<Categories> {
                     
                   ],
                 ),
-                
+                SizedBox(height: 14.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    mainMenuLainnya(
+                      "assets/images/packs/fix.png",
+                      "Tukang",
+                      () {
+                        
+                      }
+                    ),
+                    mainMenuLainnya(
+                      "assets/images/packs/sewing-machine.png",
+                      "Jahit Baju",
+                      () {
+                        
+                      }
+                    ),
+                    
+                    
+                  ],
+                ),
                 SizedBox(height: 30.0),
                 
               ],

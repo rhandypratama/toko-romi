@@ -180,6 +180,7 @@ class TransferScreenState extends State<TransferScreen> {
         labelText: "Nominal Transfer",
         labelStyle: TextStyle(fontSize: 20.0),
         contentPadding: EdgeInsets.symmetric(vertical: 20),
+        helperText: "Contoh : 1400000 (tanpa titik / koma)"
       ),
       style: TextStyle(fontSize: 28),
       // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
