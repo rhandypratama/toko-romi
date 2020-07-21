@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:toko_romi/screens/bpjs/bpjs-screen.dart';
 import 'package:toko_romi/screens/listrik/listrik-screen.dart';
 import 'package:toko_romi/screens/makanan/makanan-screen.dart';
@@ -247,8 +248,8 @@ class _CategoriesState extends State<Categories> {
                       }
                     ),
                     mainMenuLainnya(
-                      "assets/images/business-and-finance.png",
-                      "BNI Online",
+                      "assets/images/packs/logo-bni.png",
+                      "Laku Pandai",
                       () {
                         
                       }
@@ -278,7 +279,20 @@ class _CategoriesState extends State<Categories> {
                       "assets/images/authority.png",
                       "Pajak STNK",
                       () {
-                        
+                        try {
+                          confirmStnk(context, () async {
+                            Navigator.pop(context);
+                            var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                            await FlutterOpenWhatsapp.sendSingleMessage(
+                              nomorAdmin, 
+                              'PERPANJANG PAJAK STNK TAHUNAN'
+                            );
+                          });
+                          
+                        } catch (e) {
+                          print(e.toString());
+                        }
+                          
                       }
                     ),
                     mainMenuLainnya(

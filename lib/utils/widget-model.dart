@@ -300,3 +300,112 @@ defaultAlert(BuildContext context, Function btnPress) async {
 
 
 }
+
+confirmStnk(BuildContext context, Function btnPress) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.all(0),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              ClipPath(
+                clipper: MyClipper(),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      color: Color.fromRGBO(255, 205, 5, 1)),
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(top: 40.0, bottom: 40.0),
+                  child: Image.asset('assets/images/authority.png', height: 100,),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                child: dynamicText("Persiapan dalam perpanjang pajak STNK Kendaraan",
+                    fontSize: 18.0),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                child: dynamicText(
+                    "1. Pastikan WhatsApp sudah terinstall di smartphone kalian",
+                    fontSize: 12.0,
+                    color: Colors.black45),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
+                child: dynamicText(
+                    "2. Jangan merubah isi / format pesan di WhatsApp, karena itu akan menjadi bukti pesanan kalian",
+                    fontSize: 12.0,
+                    color: Colors.black45),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
+                child: dynamicText(
+                    "3. Tunggu konfirmasi berikutnya yang akan di kirim ke WhatsApp kalian",
+                    fontSize: 12.0,
+                    color: Colors.black45),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
+                child: dynamicText(
+                    "4. Pastikan KTP dan STNK Asli sudah siap",
+                    fontSize: 12.0,
+                    color: Colors.black45),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
+                child: dynamicText(
+                    "5. Kami hanya melayani perpanjang pajak STNK Tahunan",
+                    fontSize: 12.0,
+                    color: Colors.black45,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Center(
+                // padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    FlatButton(
+                      color: Colors.white,
+                      shape: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black87),
+                        borderRadius: new BorderRadius.circular(8),
+                      ),
+                      child: dynamicText('Batal',
+                        color: Colors.black87, fontSize: 16),
+                      onPressed: () => Navigator.pop(context)
+                    ),
+                    SizedBox(width: 10),
+                    FlatButton(
+                      color: Colors.white,
+                      shape: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black87),
+                        borderRadius: new BorderRadius.circular(8),
+                      ),
+                      child: dynamicText('Lanjutkan',
+                        color: Colors.black87, fontSize: 16),
+                      onPressed: btnPress
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
