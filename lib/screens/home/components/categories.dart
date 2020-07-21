@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:toko_romi/screens/angsuran-motor/angsuran-motor-screen.dart';
+import 'package:toko_romi/screens/bni/bni-screen.dart';
 import 'package:toko_romi/screens/bpjs/bpjs-screen.dart';
+import 'package:toko_romi/screens/indihome/indihome-screen.dart';
 import 'package:toko_romi/screens/listrik/listrik-screen.dart';
 import 'package:toko_romi/screens/makanan/makanan-screen.dart';
 import 'package:toko_romi/screens/pulsa/pulsa-screen.dart';
@@ -252,14 +254,14 @@ class _CategoriesState extends State<Categories> {
                       "assets/images/packs/logo-bni.png",
                       "Laku Pandai",
                       () {
-                        
+                        navigationManager(context, BniScreen(), isPushReplaced: false);
                       }
                     ),
                     mainMenuLainnya(
                       "assets/images/packs/indihome.png",
                       "Indihome",
                       () {
-                        
+                        navigationManager(context, IndihomeScreen(), isPushReplaced: false);
                       }
                     ),
                     
