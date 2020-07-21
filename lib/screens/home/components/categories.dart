@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:toko_romi/screens/angsuran-motor/angsuran-motor-screen.dart';
 import 'package:toko_romi/screens/bpjs/bpjs-screen.dart';
 import 'package:toko_romi/screens/listrik/listrik-screen.dart';
 import 'package:toko_romi/screens/makanan/makanan-screen.dart';
@@ -244,7 +245,7 @@ class _CategoriesState extends State<Categories> {
                       "assets/images/motorbike.png",
                       "Angs Motor",
                       () {
-                        
+                        navigationManager(context, AngsuranScreen(), isPushReplaced: false);
                       }
                     ),
                     mainMenuLainnya(
@@ -255,8 +256,8 @@ class _CategoriesState extends State<Categories> {
                       }
                     ),
                     mainMenuLainnya(
-                      "assets/images/credit-card-payment.png",
-                      "Top Up",
+                      "assets/images/packs/indihome.png",
+                      "Indihome",
                       () {
                         
                       }
@@ -268,9 +269,10 @@ class _CategoriesState extends State<Categories> {
                 Divider(),
                 SizedBox(height: 10.0),
                 dynamicText("Jasa",
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    textAlign: TextAlign.left),
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500,
+                  textAlign: TextAlign.left
+                ),
                 SizedBox(height: 10.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,

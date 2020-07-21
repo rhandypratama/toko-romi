@@ -89,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               padding: EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width,
-              child: dynamicText("Belanja semakin lebih mudah", 
+              child: dynamicText("Belanja atau butuh jasa apapun semakin lebih mudah", 
                 color: Colors.black38, 
                 textAlign: TextAlign.center, 
                 fontSize: 12
