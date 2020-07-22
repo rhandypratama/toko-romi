@@ -147,7 +147,7 @@ class BpjsScreenState extends State<BpjsScreen> {
         contentPadding: EdgeInsets.symmetric(vertical: 20),
         helperText: "Contoh : 0001234567890"
       ),
-      style: TextStyle(fontSize: 28),
+      style: TextStyle(fontSize: 24),
       
       // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
     );
@@ -162,7 +162,7 @@ class BpjsScreenState extends State<BpjsScreen> {
       items: ['1 Bulan', '2 Bulan', '3 Bulan', '4 Bulan', '5 Bulan', '6 Bulan', '7 Bulan', '8 Bulan', '9 Bulan', '10 Bulan', '11 Bulan', '12 Bulan'].map((String x) {
         return DropdownMenuItem<String>(
           value: x,
-          child: dynamicText("$x", fontSize: 24)
+          child: dynamicText("$x", fontSize: 20)
         );
       }).toList(),
       onChanged: (newCat) {

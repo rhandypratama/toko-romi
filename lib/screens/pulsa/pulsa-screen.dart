@@ -138,14 +138,13 @@ class _PulsaScreenState extends State<PulsaScreen> {
     return TextFormField(
       controller: userController,
       autocorrect: false,
-      // cursorColor: SwatchColor.kLightBlueGreen,
       textInputAction: TextInputAction.next,
       textCapitalization: TextCapitalization.none,
       focusNode: _emailFocus,
       onFieldSubmitted: (term) {
-        fieldFocusChange(context, _emailFocus, _passwordFocus);
+        // fieldFocusChange(context, _emailFocus, _passwordFocus);
+        _emailFocus.unfocus();
       },
-      // style: textFieldStyle,
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
         labelText: "Nomor Handphone",
@@ -154,7 +153,6 @@ class _PulsaScreenState extends State<PulsaScreen> {
         helperText: "Contoh : 08123456789"
       ),
       style: TextStyle(fontSize: 28),
-      // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
     );
       
   }

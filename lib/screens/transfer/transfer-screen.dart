@@ -16,8 +16,10 @@ class TransferScreenState extends State<TransferScreen> {
   final Color color2 = Color(0xffFA8165);
   final Color color3 = Color(0xffFB8964);
 
-  final FocusNode _passwordFocus = FocusNode();
-  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _namaFocus = FocusNode();
+  final FocusNode _rekeningFocus = FocusNode();
+  final FocusNode _nominalFocus = FocusNode();
+  final rekeningController = TextEditingController();
   final namaPenerimaController = TextEditingController();
   final nominalController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
@@ -32,6 +34,7 @@ class TransferScreenState extends State<TransferScreen> {
   @override
   void dispose(){
     super.dispose();
+    rekeningController.dispose();
     namaPenerimaController.dispose();
     nominalController.dispose();
   }
@@ -70,6 +73,10 @@ class TransferScreenState extends State<TransferScreen> {
                     child: bankField()
                   ),
                   Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
+                    child: rekeningField()
+                  ),
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
                     child: noHpField()
                   ),
@@ -106,6 +113,8 @@ class TransferScreenState extends State<TransferScreen> {
                               try {
                                 if (currentCat == "") {
                                   _showSnackBarMessage("Pilih bank tujuan yang tersedia");
+                                } else if (rekeningController.text == "") {
+                                  _showSnackBarMessage("Nomor rekening wajib diisi");
                                 } else if (namaPenerimaController.text == "") {
                                   _showSnackBarMessage("Nama penerima wajib diisi");
                                 } else if (nominalController.text == "") {
@@ -143,22 +152,20 @@ class TransferScreenState extends State<TransferScreen> {
     return TextFormField(
       controller: namaPenerimaController,
       autocorrect: false,
-      // cursorColor: SwatchColor.kLightBlueGreen,
       textInputAction: TextInputAction.next,
       textCapitalization: TextCapitalization.none,
-      focusNode: _emailFocus,
+      focusNode: _namaFocus,
       onFieldSubmitted: (term) {
-        fieldFocusChange(context, _emailFocus, _passwordFocus);
+        // fieldFocusChange(context, _namaFocus, _nominalFocus);
+        _namaFocus.unfocus();
       },
-      // style: textFieldStyle,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Nama Penerima",
         labelStyle: TextStyle(fontSize: 20.0),
-        contentPadding: EdgeInsets.symmetric(vertical: 20),
+        contentPadding: EdgeInsets.symmetric(vertical: 14),
       ),
-      style: TextStyle(fontSize: 28),
-      // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
+      style: TextStyle(fontSize: 24),
     );
       
   }
@@ -170,19 +177,43 @@ class TransferScreenState extends State<TransferScreen> {
       // cursorColor: SwatchColor.kLightBlueGreen,
       textInputAction: TextInputAction.next,
       textCapitalization: TextCapitalization.none,
-      focusNode: _passwordFocus,
+      focusNode: _nominalFocus,
       onFieldSubmitted: (term) {
-        _passwordFocus.unfocus();
+        _nominalFocus.unfocus();
       },
       // style: textFieldStyle,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: "Nominal Transfer",
         labelStyle: TextStyle(fontSize: 20.0),
-        contentPadding: EdgeInsets.symmetric(vertical: 20),
+        contentPadding: EdgeInsets.symmetric(vertical: 14),
         helperText: "Contoh : 1400000 (tanpa titik / koma)"
       ),
-      style: TextStyle(fontSize: 28),
+      style: TextStyle(fontSize: 24),
+      // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
+    );
+      
+  }
+
+  Widget rekeningField() {
+    return TextFormField(
+      controller: rekeningController,
+      autocorrect: false,
+      textInputAction: TextInputAction.next,
+      textCapitalization: TextCapitalization.none,
+      focusNode: _rekeningFocus,
+      onFieldSubmitted: (term) {
+        _rekeningFocus.unfocus();
+      },
+      // style: textFieldStyle,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: "Nomor Rekening",
+        labelStyle: TextStyle(fontSize: 20.0),
+        contentPadding: EdgeInsets.symmetric(vertical: 14),
+        helperText: "Contoh : 147567290"
+      ),
+      style: TextStyle(fontSize: 24),
       // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
     );
       
@@ -196,7 +227,7 @@ class TransferScreenState extends State<TransferScreen> {
       items: ['BCA', 'BRI', 'BNI', 'BTN', 'BUKOPIN', 'CIMB NIAGA', 'DANAMON', 'MANDIRI', 'MEGA', 'PERMATA'].map((String x) {
         return DropdownMenuItem<String>(
           value: x,
-          child: dynamicText("$x", fontSize: 24)
+          child: dynamicText("$x", fontSize: 20)
         );
       }).toList(),
       onChanged: (newCat) {
@@ -228,7 +259,7 @@ class TransferScreenState extends State<TransferScreen> {
           ),
           
           SizedBox(height: 20,),
-          dynamicText("Pastikan bank, nama penerima, dan nominal transfer sudah benar", fontSize: 14),
+          dynamicText("Pastikan bank, nomor rekening, nama penerima, dan nominal transfer sudah benar", fontSize: 14),
           SizedBox(height: 10,),
           dynamicText("Transaksi di atas jam operasional akan diproses ke-esokan harinya", fontSize: 14),
           SizedBox(height: 10,),

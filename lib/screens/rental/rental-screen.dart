@@ -98,7 +98,7 @@ class RentalScreenState extends State<RentalScreen> {
                           fontSize: 20
                         ),
                         dynamicText(
-                          "${time.hour}:${time.minute}",
+                          "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}",
                           fontSize: 20,
                           fontWeight: FontWeight.bold
                         ),
@@ -148,7 +148,7 @@ class RentalScreenState extends State<RentalScreen> {
                             onPress: () async {
                               try {
                                 // print("${pickedDate.day}-${pickedDate.month}-${pickedDate.year}");
-                                // print("${time.hour}:${time.minute}");
+                                // print("${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}");
                                 if (asalController.text == "") {
                                   _showSnackBarMessage("Alamat penjemputan wajib diisi");
                                 } else if (tujuanController.text == "") {
@@ -159,7 +159,7 @@ class RentalScreenState extends State<RentalScreen> {
                                   var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
                                   FlutterOpenWhatsapp.sendSingleMessage(
                                     nomorAdmin,
-                                    'RENTAL MOBIL TANGGAL : ${pickedDate.day}-${pickedDate.month}-${pickedDate.year} | JAM ${time.hour}:${time.minute} | ${jmlPenumpangController.text} Orang | ASAL : ${asalController.text} | TUJUAN : ${tujuanController.text}'
+                                    "RENTAL MOBIL TANGGAL : ${pickedDate.day}-${pickedDate.month}-${pickedDate.year} | JAM ${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')} | ${jmlPenumpangController.text} Orang | ASAL : ${asalController.text} | TUJUAN : ${tujuanController.text}"
                                   );
                                 }
                                 
@@ -191,16 +191,17 @@ class RentalScreenState extends State<RentalScreen> {
       textCapitalization: TextCapitalization.none,
       focusNode: _asalFocus,
       onFieldSubmitted: (term) {
-        fieldFocusChange(context, _asalFocus, _tujuanFocus);
+        // fieldFocusChange(context, _asalFocus, _tujuanFocus);
+        _asalFocus.unfocus();
       },
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Alamat Penjemputan",
         labelStyle: TextStyle(fontSize: 20.0),
-        contentPadding: EdgeInsets.symmetric(vertical: 20),
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
         helperText: "Contoh : Rumah Pak Slamet Jl. Guntar No. 45 Desa Wringinagung"
       ),
-      style: TextStyle(fontSize: 28),
+      style: TextStyle(fontSize: 24),
     ); 
   }
 
@@ -212,16 +213,17 @@ class RentalScreenState extends State<RentalScreen> {
       textCapitalization: TextCapitalization.none,
       focusNode: _tujuanFocus,
       onFieldSubmitted: (term) {
-        fieldFocusChange(context, _tujuanFocus, _jmlPenumpangFocus);
+        // fieldFocusChange(context, _tujuanFocus, _jmlPenumpangFocus);
+        _tujuanFocus.unfocus();
       },
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Kota Tujuan",
         labelStyle: TextStyle(fontSize: 20.0),
-        contentPadding: EdgeInsets.symmetric(vertical: 20),
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
         helperText: "Contoh : Surabaya"
       ),
-      style: TextStyle(fontSize: 28),
+      style: TextStyle(fontSize: 24),
     ); 
   }
 
@@ -239,10 +241,10 @@ class RentalScreenState extends State<RentalScreen> {
       decoration: InputDecoration(
         labelText: "Jumlah Penumpang",
         labelStyle: TextStyle(fontSize: 20.0),
-        contentPadding: EdgeInsets.symmetric(vertical: 20),
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
         helperText: "Contoh : 6"
       ),
-      style: TextStyle(fontSize: 28),
+      style: TextStyle(fontSize: 24),
     ); 
   }
 
