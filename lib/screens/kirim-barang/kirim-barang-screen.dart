@@ -6,12 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
-class ServiceScreen extends StatefulWidget {
+class KirimBarangScreen extends StatefulWidget {
   @override
-  ServiceScreenState createState() => ServiceScreenState();
+  KirimBarangScreenState createState() => KirimBarangScreenState();
 }
 
-class ServiceScreenState extends State<ServiceScreen> {
+class KirimBarangScreenState extends State<KirimBarangScreen> {
   final Color color1 = Color(0xffFA696C);
   final Color color2 = Color(0xffFA8165);
   final Color color3 = Color(0xffFB8964);
@@ -22,15 +22,8 @@ class ServiceScreenState extends State<ServiceScreen> {
   String currentCat = "";
   final f = NumberFormat('#,##0', 'id_ID');
   var barangs = [
-    'Handphone',
-    'TV',
-    'Kulkas',
-    'Sanyo',
-    'Kipas Angin',
-    'Speaker',
-    'Setrika',
-    'Mesin Cuci',
-    'Lainnya',
+    'Antar Langsung',
+    'Via Kurir Ekspedisi',
   ];
 
   @override
@@ -63,7 +56,7 @@ class ServiceScreenState extends State<ServiceScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Service Elektronik", color: Colors.black),
+        title: dynamicText("Kirim Barang", color: Colors.black),
       
       ),
       body: Column(
@@ -74,63 +67,92 @@ class ServiceScreenState extends State<ServiceScreen> {
               child: ListView(
                 children: <Widget>[
                   Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 10.0),
+                    child: dynamicText("Mau kirim barang kemana?", fontSize: 20, fontWeight: FontWeight.bold)
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
+                    child: dynamicText("Sekarang ada fitur pengeiriman barang di dalam kota dan luar kota loh!", fontSize: 16)
+                  ),
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
                     child: jenisField()
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                    child: keluhanField()
+                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 10.0),
+                    child: defaultButton(
+                      context, 
+                      "lanjutkan", 
+                      onPress: () async {
+                        
+                      } 
+                    ),
                   ),
+                  
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30.0),
                     child: tips()
                   ),
-
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 10.0),
+                    child: dynamicText("Atau mau kirim barang dengan mobil bak?", fontSize: 20, fontWeight: FontWeight.bold)
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
+                    child: dynamicText("Tenang, kita juga menyediakan pengiriman dengan mobil bak", fontSize: 16)
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 10.0),
+                    child: Card(
+                      color: Colors.white,
+                      elevation: 1,
+                      child: ListTile(
+                        contentPadding: EdgeInsets.all(10),
+                        leading: Image.asset('assets/images/packs/pickup-car.png'),
+                        title: dynamicText("PICKUP BAK", fontSize: 20, fontWeight: FontWeight.bold),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            dynamicText("Ukuran : 200x130x120"),
+                            dynamicText("Berat Maks : 1000 kg"),
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-          Container(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                Divider(),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.only(bottom: 10, top: 5, left: kDefaultPaddin, right: kDefaultPaddin),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: defaultButton(
-                            context, 
-                            "service sekarang", 
-                            onPress: () async {
-                              try {
-                                if (currentCat == "") {
-                                  _showSnackBarMessage("Pilih jenis barang yang tersedia");
-                                } else {
-                                  var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                  FlutterOpenWhatsapp.sendSingleMessage(
-                                    nomorAdmin,
-                                    'SERVICE ELEKTRONIK $currentCat | ${keluhanController.text}'
-                                  );
-                                }
-                                
-                              } catch (e) {
-                                print(e.toString());
-                              }
-                            } 
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+          // Container(
+          //   color: Colors.white,
+          //   child: Column(
+          //     children: <Widget>[
+          //       Divider(),
+          //       Align(
+          //         alignment: Alignment.bottomCenter,
+          //         child: Container(
+          //           color: Colors.white,
+          //           padding: const EdgeInsets.only(bottom: 10, top: 5, left: kDefaultPaddin, right: kDefaultPaddin),
+          //           child: Row(
+          //             children: <Widget>[
+          //               Expanded(
+          //                 child: defaultButton(
+          //                   context, 
+          //                   "lanjutkan", 
+          //                   onPress: () async {
+                              
+          //                   } 
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
             
                     
         ],
@@ -166,7 +188,7 @@ class ServiceScreenState extends State<ServiceScreen> {
     return DropdownButtonFormField(
       isDense: false,
       itemHeight: 50,
-      hint: dynamicText("Pilih jenis barang", fontSize: 20),
+      hint: dynamicText("Pilih jenis layanan", fontSize: 20),
       items: barangs.map((String x) {
         return DropdownMenuItem<String>(
           value: x,
@@ -204,9 +226,7 @@ class ServiceScreenState extends State<ServiceScreen> {
           SizedBox(height: 20,),
           dynamicText("Transaksi di atas jam operasional akan diproses ke-esokan harinya", fontSize: 14),
           SizedBox(height: 10,),
-          dynamicText("Tunggu konfirmasi dari kami melalui WhatsApp", fontSize: 14),
-          SizedBox(height: 10,),
-          dynamicText("Biaya service tiap barang berbeda, tergantung dari tingkat kerusakan barang tersebut dan akan kami informasikan melalui WhatsApp", fontSize: 13, fontWeight: FontWeight.bold),
+          dynamicText("Jasa kurir ekspedisi yang tersedia adalah TIKI, JNE, dan KALOG", fontSize: 13, fontWeight: FontWeight.bold),
         ],
       ),
     );

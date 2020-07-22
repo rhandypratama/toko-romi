@@ -4,6 +4,7 @@ import 'package:toko_romi/screens/angsuran-motor/angsuran-motor-screen.dart';
 import 'package:toko_romi/screens/bni/bni-screen.dart';
 import 'package:toko_romi/screens/bpjs/bpjs-screen.dart';
 import 'package:toko_romi/screens/indihome/indihome-screen.dart';
+import 'package:toko_romi/screens/kirim-barang/kirim-barang-screen.dart';
 import 'package:toko_romi/screens/listrik/listrik-screen.dart';
 import 'package:toko_romi/screens/makanan/makanan-screen.dart';
 import 'package:toko_romi/screens/pulsa/pulsa-screen.dart';
@@ -329,13 +330,14 @@ class _CategoriesState extends State<Categories> {
                       }
                     ),
                     mainMenuLainnya(
-                      "assets/images/packs/diet.png",
-                      "Catering",
+                      "assets/images/truck.png",
+                      "Kirim Barang",
                       false,
                       () {
-                        
+                        navigationManager(context, KirimBarangScreen(), isPushReplaced: false);
                       }
                     ),
+                    
                     mainMenuLainnya(
                       "assets/images/repair.png",
                       "Bengkel",
@@ -351,8 +353,8 @@ class _CategoriesState extends State<Categories> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     mainMenuLainnya(
-                      "assets/images/truck.png",
-                      "Kirim Barang",
+                      "assets/images/packs/diet.png",
+                      "Catering",
                       false,
                       () {
                         
@@ -382,7 +384,14 @@ class _CategoriesState extends State<Categories> {
                         
                       }
                     ),
-                    
+                    mainMenuLainnya(
+                      "assets/images/packs/washing-machine.png",
+                      "Laundry",
+                      false,
+                      () {
+                        
+                      }
+                    ),
                   ],
                 ),
                 SizedBox(height: 30.0),
