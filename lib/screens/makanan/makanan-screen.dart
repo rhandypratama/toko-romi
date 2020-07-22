@@ -116,7 +116,8 @@ class _MakananScreenState extends State<MakananScreen> {
                                             placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                                             imageUrl: (task['image'] == "") ? defaultImage : task['image'],
                                             width: MediaQuery.of(context).size.width,
-                                            fit: BoxFit.fill,
+                                            height: MediaQuery.of(context).size.height,
+                                            fit: BoxFit.cover
                                           ),
                                             
                                           // Image(
