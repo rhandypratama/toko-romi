@@ -124,7 +124,7 @@ class TransferScreenState extends State<TransferScreen> {
                                   var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
                                   FlutterOpenWhatsapp.sendSingleMessage(
                                     nomorAdmin,
-                                    'TRANSFER $currentCat | ${namaPenerimaController.text} | ${f.format(int.parse(nominalController.text))}'
+                                    'TRANSFER $currentCat | ${rekeningController.text} | ${namaPenerimaController.text} | ${f.format(int.parse(nominalController.text))}'
                                   );
                                 }
                                 

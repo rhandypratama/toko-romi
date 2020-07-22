@@ -332,7 +332,7 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/truck.png",
                       "Kirim Barang",
-                      false,
+                      true,
                       () {
                         navigationManager(context, KirimBarangScreen(), isPushReplaced: false);
                       }

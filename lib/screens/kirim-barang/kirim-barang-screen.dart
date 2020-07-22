@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:toko_romi/screens/kirim-barang/detail-kirim-screen.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
@@ -16,8 +17,6 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
   final Color color2 = Color(0xffFA8165);
   final Color color3 = Color(0xffFB8964);
 
-  final FocusNode _keluhanFocus = FocusNode();
-  final keluhanController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   String currentCat = "";
   final f = NumberFormat('#,##0', 'id_ID');
@@ -34,7 +33,6 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
   @override
   void dispose(){
     super.dispose();
-    keluhanController.dispose();
   }
 
   void _showSnackBarMessage(String message) {
@@ -84,17 +82,18 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
                       context, 
                       "lanjutkan", 
                       onPress: () async {
-                        
+                        // print(currentCat);
+                        navigationManager(context, DetailKirimScreen(jenisLayanan: currentCat), isPushReplaced: false);
                       } 
                     ),
                   ),
                   
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30.0),
+                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
                     child: tips()
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 10.0),
+                    padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 30.0, bottom:10),
                     child: dynamicText("Atau mau kirim barang dengan mobil bak?", fontSize: 20, fontWeight: FontWeight.bold)
                   ),
                   Padding(
@@ -107,14 +106,17 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
                       color: Colors.white,
                       elevation: 1,
                       child: ListTile(
+                        onTap: () {
+                          navigationManager(context, DetailKirimScreen(jenisLayanan: 'PICKUP BAK'), isPushReplaced: false);
+                        },
                         contentPadding: EdgeInsets.all(10),
                         leading: Image.asset('assets/images/packs/pickup-car.png'),
                         title: dynamicText("PICKUP BAK", fontSize: 20, fontWeight: FontWeight.bold),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            dynamicText("Ukuran : 200x130x120"),
-                            dynamicText("Berat Maks : 1000 kg"),
+                            dynamicText("Ukuran : 200x130x120", fontSize: 14),
+                            dynamicText("Berat Maks : 1000 kg", fontSize: 14)
                           ],
                         ),
                         trailing: Icon(Icons.arrow_forward_ios),
@@ -125,63 +127,10 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
               ),
             ),
           ),
-          // Container(
-          //   color: Colors.white,
-          //   child: Column(
-          //     children: <Widget>[
-          //       Divider(),
-          //       Align(
-          //         alignment: Alignment.bottomCenter,
-          //         child: Container(
-          //           color: Colors.white,
-          //           padding: const EdgeInsets.only(bottom: 10, top: 5, left: kDefaultPaddin, right: kDefaultPaddin),
-          //           child: Row(
-          //             children: <Widget>[
-          //               Expanded(
-          //                 child: defaultButton(
-          //                   context, 
-          //                   "lanjutkan", 
-          //                   onPress: () async {
-                              
-          //                   } 
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
-            
-                    
+          
         ],
       ),
     );
-  }
-
-  Widget keluhanField() {
-    return TextFormField(
-      controller: keluhanController,
-      autocorrect: false,
-      textInputAction: TextInputAction.next,
-      textCapitalization: TextCapitalization.none,
-      focusNode: _keluhanFocus,
-      onFieldSubmitted: (term) {
-        _keluhanFocus.unfocus();
-      },
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        labelText: "Keluhan",
-        labelStyle: TextStyle(fontSize: 20.0),
-        contentPadding: EdgeInsets.symmetric(vertical: 20),
-        helperText: "Contoh : Layar mati total"
-      ),
-      style: TextStyle(fontSize: 24),
-      
-      // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
-    );
-      
   }
 
   Widget jenisField() {
@@ -223,7 +172,7 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
             ],
           ),
           
-          SizedBox(height: 20,),
+          SizedBox(height: 10,),
           dynamicText("Transaksi di atas jam operasional akan diproses ke-esokan harinya", fontSize: 14),
           SizedBox(height: 10,),
           dynamicText("Jasa kurir ekspedisi yang tersedia adalah TIKI, JNE, dan KALOG", fontSize: 13, fontWeight: FontWeight.bold),
