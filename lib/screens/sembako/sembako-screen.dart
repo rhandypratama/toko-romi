@@ -115,6 +115,7 @@ class _SembakoScreenState extends State<SembakoScreen> {
                                           child: CachedNetworkImage(
                                             placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                                             imageUrl: (task['image'] == "") ? defaultImage : task['image'],
+                                            width: MediaQuery.of(context).size.width,
                                             fit: BoxFit.fill,
                                           ),
                                             

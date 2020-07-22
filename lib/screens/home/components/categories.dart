@@ -7,7 +7,9 @@ import 'package:toko_romi/screens/indihome/indihome-screen.dart';
 import 'package:toko_romi/screens/listrik/listrik-screen.dart';
 import 'package:toko_romi/screens/makanan/makanan-screen.dart';
 import 'package:toko_romi/screens/pulsa/pulsa-screen.dart';
+import 'package:toko_romi/screens/rental/rental-screen.dart';
 import 'package:toko_romi/screens/sembako/sembako-screen.dart';
+import 'package:toko_romi/screens/service-elektronik/service-screen.dart';
 import 'package:toko_romi/screens/tarik/tarik-screen.dart';
 import 'package:toko_romi/screens/transfer/transfer-screen.dart';
 import 'package:toko_romi/utils/constant.dart';
@@ -300,6 +302,20 @@ class _CategoriesState extends State<Categories> {
                       }
                     ),
                     mainMenuLainnya(
+                      "assets/images/car-rental.png",
+                      "Rental",
+                      () {
+                        navigationManager(context, RentalScreen(), isPushReplaced: false);  
+                      }
+                    ),
+                    mainMenuLainnya(
+                      "assets/images/electric-service.png",
+                      "Service",
+                      () {
+                        navigationManager(context, ServiceScreen(), isPushReplaced: false);
+                      }
+                    ),
+                    mainMenuLainnya(
                       "assets/images/truck.png",
                       "Kirim Barang",
                       () {
@@ -313,20 +329,7 @@ class _CategoriesState extends State<Categories> {
                         
                       }
                     ),
-                    mainMenuLainnya(
-                      "assets/images/car-rental.png",
-                      "Rental",
-                      () {
-                        
-                      }
-                    ),
-                    mainMenuLainnya(
-                      "assets/images/electric-service.png",
-                      "Service",
-                      () {
-                        
-                      }
-                    ),
+                    
                     
                   ],
                 ),
@@ -348,7 +351,13 @@ class _CategoriesState extends State<Categories> {
                         
                       }
                     ),
-                    
+                    mainMenuLainnya(
+                      "assets/images/packs/spa.png",
+                      "Pijat",
+                      () {
+                        
+                      }
+                    ),
                     
                   ],
                 ),

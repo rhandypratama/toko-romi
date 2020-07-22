@@ -6,21 +6,32 @@ import 'package:intl/intl.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
-class IndihomeScreen extends StatefulWidget {
+class ServiceScreen extends StatefulWidget {
   @override
-  IndihomeScreenState createState() => IndihomeScreenState();
+  ServiceScreenState createState() => ServiceScreenState();
 }
 
-class IndihomeScreenState extends State<IndihomeScreen> {
+class ServiceScreenState extends State<ServiceScreen> {
   final Color color1 = Color(0xffFA696C);
   final Color color2 = Color(0xffFA8165);
   final Color color3 = Color(0xffFB8964);
 
-  final FocusNode _billingFocus = FocusNode();
-  final billingController = TextEditingController();
+  final FocusNode _keluhanFocus = FocusNode();
+  final keluhanController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   String currentCat = "";
   final f = NumberFormat('#,##0', 'id_ID');
+  var barangs = [
+    'Handphone',
+    'TV',
+    'Kulkas',
+    'Sanyo',
+    'Kipas Angin',
+    'Speaker',
+    'Setrika',
+    'Mesin Cuci',
+    'Lainnya',
+  ];
 
   @override
   void initState() {
@@ -30,7 +41,7 @@ class IndihomeScreenState extends State<IndihomeScreen> {
   @override
   void dispose(){
     super.dispose();
-    billingController.dispose();
+    keluhanController.dispose();
   }
 
   void _showSnackBarMessage(String message) {
@@ -52,7 +63,7 @@ class IndihomeScreenState extends State<IndihomeScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Tagihan Internet Indihome", color: Colors.black),
+        title: dynamicText("Service Elektronik", color: Colors.black),
       
       ),
       body: Column(
@@ -64,7 +75,11 @@ class IndihomeScreenState extends State<IndihomeScreen> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                    child: billingField()
+                    child: jenisField()
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
+                    child: keluhanField()
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30.0),
@@ -90,16 +105,16 @@ class IndihomeScreenState extends State<IndihomeScreen> {
                         Expanded(
                           child: defaultButton(
                             context, 
-                            "bayar internet sekarang", 
+                            "service sekarang", 
                             onPress: () async {
                               try {
-                                if (billingController.text == "") {
-                                  _showSnackBarMessage("Nomor billing wajib diisi");
+                                if (currentCat == "") {
+                                  _showSnackBarMessage("Pilih jenis barang yang tersedia");
                                 } else {
                                   var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
                                   FlutterOpenWhatsapp.sendSingleMessage(
                                     nomorAdmin,
-                                    'INDIHOME ${billingController.text}'
+                                    'SERVICE ELEKTRONIK $currentCat | ${keluhanController.text}'
                                   );
                                 }
                                 
@@ -123,25 +138,47 @@ class IndihomeScreenState extends State<IndihomeScreen> {
     );
   }
 
-  Widget billingField() {
+  Widget keluhanField() {
     return TextFormField(
-      controller: billingController,
+      controller: keluhanController,
       autocorrect: false,
       textInputAction: TextInputAction.next,
       textCapitalization: TextCapitalization.none,
-      focusNode: _billingFocus,
+      focusNode: _keluhanFocus,
       onFieldSubmitted: (term) {
-        _billingFocus.unfocus();
+        _keluhanFocus.unfocus();
       },
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        labelText: "Nomor Billing",
+        labelText: "Keluhan",
         labelStyle: TextStyle(fontSize: 20.0),
         contentPadding: EdgeInsets.symmetric(vertical: 20),
-        helperText: "Contoh : 1234567890"
+        helperText: "Contoh : Layar mati total"
       ),
       style: TextStyle(fontSize: 28),
-    ); 
+      
+      // decoration: textInputDecoration(Icons.person, "Email", snapshot, hintText: "Email"),
+    );
+      
+  }
+
+  Widget jenisField() {
+    return DropdownButtonFormField(
+      isDense: false,
+      itemHeight: 50,
+      hint: dynamicText("Pilih jenis barang", fontSize: 20),
+      items: barangs.map((String x) {
+        return DropdownMenuItem<String>(
+          value: x,
+          child: dynamicText("$x", fontSize: 22)
+        );
+      }).toList(),
+      onChanged: (newCat) {
+        setState(() {
+          currentCat = newCat;
+        });
+      },
+    );
   }
 
   Widget tips() {
@@ -165,18 +202,11 @@ class IndihomeScreenState extends State<IndihomeScreen> {
           ),
           
           SizedBox(height: 20,),
-          dynamicText("Pastikan nomor billing sudah benar", fontSize: 14),
-          SizedBox(height: 10,),
-          dynamicText("Transaksi ini khusus pelanggan INDIHOME", fontSize: 13, fontWeight: FontWeight.bold),
-          SizedBox(height: 10,),
-          dynamicText("Tunggu sampai tim kami memberikan informasi tagihan internet kalian melalui WhatsApp", fontSize: 13, fontWeight: FontWeight.bold),
-          SizedBox(height: 10,),
           dynamicText("Transaksi di atas jam operasional akan diproses ke-esokan harinya", fontSize: 14),
           SizedBox(height: 10,),
-          dynamicText("Semua bukti transaksi akan dikirim ke WhatsApp kalian", fontSize: 14),
+          dynamicText("Tunggu konfirmasi dari kami melalui WhatsApp", fontSize: 14),
           SizedBox(height: 10,),
-          dynamicText("Apabila terjadi gangguan kami akan langsung memberikan informasi ke kalian melalui WhatsApp", fontSize: 14),
-          
+          dynamicText("Biaya service tiap barang berbeda, tergantung dari tingkat kerusakan barang tersebut dan akan kami informasikan melalui WhatsApp", fontSize: 13, fontWeight: FontWeight.bold),
         ],
       ),
     );
