@@ -180,7 +180,7 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
-  Widget mainMenuLainnya(String imgpath, String title, Function press) {
+  Widget mainMenuLainnya(String imgpath, String title, bool isActive, Function press) {
     return Padding(
       padding: const EdgeInsets.only(right: 16.0),
       child: Column(
@@ -194,21 +194,28 @@ class _CategoriesState extends State<Categories> {
               height: 54,
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isActive ? Colors.white : Colors.grey[300],
                 // border: Border.all(color: Colors.grey[100], width: 1.5),
-                border: Border.all(color: kKuning, width: 1.5),
+                border: isActive ? Border.all(color: kKuning, width: 1.5) : Border.all(color: Colors.grey[300], width: 1.5),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Image.asset(
-                imgpath, height: 100,
-                // 'assets/images/logo.png',
-              ),
+              child: isActive ? 
+                Image.asset(
+                  imgpath, height: 100,
+                ) : Image.asset(
+                  imgpath, height: 100,
+                  color: Colors.grey[500],
+                ),
             ),
           ),
           SizedBox(
             height: 7,
           ),
-          dynamicText(title, fontSize: 10, color: Colors.black)
+          dynamicText(
+            title, 
+            fontSize: 10, 
+            color: isActive ? Colors.black : Colors.grey
+          )
         ],
       ),
     );
@@ -248,6 +255,7 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/motorbike.png",
                       "Angs Motor",
+                      true,
                       () {
                         navigationManager(context, AngsuranScreen(), isPushReplaced: false);
                       }
@@ -255,6 +263,7 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/packs/logo-bni.png",
                       "Laku Pandai",
+                      true,
                       () {
                         navigationManager(context, BniScreen(), isPushReplaced: false);
                       }
@@ -262,6 +271,7 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/packs/indihome.png",
                       "Indihome",
+                      true,
                       () {
                         navigationManager(context, IndihomeScreen(), isPushReplaced: false);
                       }
@@ -284,6 +294,7 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/authority.png",
                       "Pajak STNK",
+                      true,
                       () {
                         try {
                           confirmStnk(context, () async {
@@ -304,6 +315,7 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/car-rental.png",
                       "Rental",
+                      true,
                       () {
                         navigationManager(context, RentalScreen(), isPushReplaced: false);  
                       }
@@ -311,13 +323,15 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/electric-service.png",
                       "Service",
+                      true,
                       () {
                         navigationManager(context, ServiceScreen(), isPushReplaced: false);
                       }
                     ),
                     mainMenuLainnya(
-                      "assets/images/truck.png",
-                      "Kirim Barang",
+                      "assets/images/packs/diet.png",
+                      "Catering",
+                      false,
                       () {
                         
                       }
@@ -325,12 +339,11 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/repair.png",
                       "Bengkel",
+                      false,
                       () {
                         
                       }
                     ),
-                    
-                    
                   ],
                 ),
                 SizedBox(height: 14.0),
@@ -338,8 +351,17 @@ class _CategoriesState extends State<Categories> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     mainMenuLainnya(
+                      "assets/images/truck.png",
+                      "Kirim Barang",
+                      false,
+                      () {
+                        
+                      }
+                    ),
+                    mainMenuLainnya(
                       "assets/images/packs/fix.png",
                       "Tukang",
+                      false,
                       () {
                         
                       }
@@ -347,6 +369,7 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/packs/sewing-machine.png",
                       "Jahit Baju",
+                      false,
                       () {
                         
                       }
@@ -354,6 +377,7 @@ class _CategoriesState extends State<Categories> {
                     mainMenuLainnya(
                       "assets/images/packs/spa.png",
                       "Pijat",
+                      false,
                       () {
                         
                       }
