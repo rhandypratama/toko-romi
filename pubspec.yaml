@@ -21,6 +21,7 @@ dependencies:
   uuid:
   firebase_storage:
   image_picker: ^0.6.7+4
+  geolocator: ^5.3.2+2
   
 dev_dependencies:
   flutter_test:
@@ -37,3 +38,4 @@ flutter:
     - assets/images/
     - assets/images/packs/
     - assets/icons/
+    - assets/gifs/

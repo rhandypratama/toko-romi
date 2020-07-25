@@ -127,6 +127,70 @@ Widget maintenancePage(String message, String subMessage) {
   );
 }
 
+Widget noDeviceLocation(BuildContext context, String appBarTitle, String message, String subMessage) {
+  return Scaffold(
+    appBar: AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      leading: IconButton(
+        icon: SvgPicture.asset("assets/icons/back.svg"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          dynamicText(appBarTitle, color: Colors.black),
+        ],
+      ),
+    ),
+    body: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      // mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Image.asset(
+          // 'assets/images/destination_map_marker.png', 
+          'assets/gifs/map.gif', 
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.contain
+          // height: 150,
+        ),
+    //       SvgPicture.asset(
+    //         'assets/images/cart.svg',
+    //         placeholderBuilder: (context) => CircularProgressIndicator(),
+    //         height: 130,
+    // //            color: Colors.white,
+    //       ),
+        SizedBox(height: 20.0),
+        dynamicText(
+          message,
+          fontSize: 20.0,
+          color: Colors.black87,
+        ),
+        SizedBox(height: 10.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+          child: Text(
+            subMessage,
+            style: TextStyle(fontSize: 14.0, color: Colors.black54),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(height: 10.0),
+      ]
+    ),
+  );
+}
+
+Widget defaultLoading() {
+  return Center(
+    child: Container(
+      // color: Colors.white,
+      child: Image.asset('assets/gifs/loader_circle.gif', width: 34)),
+  );
+}
+
 Widget specUnit(String title, String value, Color fontColor) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.start,

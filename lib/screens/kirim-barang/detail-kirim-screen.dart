@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
@@ -37,11 +39,19 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
   String currentCat = "";
   final f = NumberFormat('#,##0', 'id_ID');
 
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
+  Position _lastKnownPosition;
+  Position _currentPosition;
+  String _placemark = '';
+  String _currentAddress = '';
+
   @override
   void initState() {
     super.initState();
+    _initLastKnownLocation();
+    _initCurrentLocation();
   }
-
+  
   @override
   void dispose(){
     super.dispose();
@@ -52,161 +62,246 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
     noHpPengirimController.dispose();
   }
 
+  @override
+  void didUpdateWidget(Widget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      _lastKnownPosition = null;
+      _currentPosition = null;
+    });
+
+    _initLastKnownLocation().then((_) => _initCurrentLocation());
+  }
+  
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(_currentPosition.latitude, _currentPosition.longitude);
+      if (p != null && p.isNotEmpty) {
+        Placemark place = p[0];
+        setState(() {
+          _currentAddress = '${place.thoroughfare}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}';
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void _showSnackBarMessage(String message) {
     scaffoldState.currentState.showSnackBar(SnackBar(
       content: Text(message),
     ));
   }
+
+  Future<void> _initLastKnownLocation() async {
+    Position position;
+    try {
+      position = await geolocator.getLastKnownPosition(desiredAccuracy: LocationAccuracy.best);
+    } on PlatformException {
+      position = null;
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _lastKnownPosition = position;
+    });
+  }
+
+  _initCurrentLocation() {
+    geolocator..getCurrentPosition(desiredAccuracy: LocationAccuracy.medium).then((position) {  
+      if (mounted) {
+        setState(() => _currentPosition = position);
+        _getAddressFromLatLng();
+      }
+    }).catchError((e) {
+      //
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldState,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: SvgPicture.asset("assets/icons/back.svg"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: dynamicText("Kirim Barang (${widget.jenisLayanan})", color: Colors.black),
-      
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              color: Colors.white,
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 10.0, bottom: 0),
-                    child: dynamicText("Tujuan", fontSize: 20, fontWeight: FontWeight.bold)
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey[300], width: 1),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          
-                          Padding(
-                            padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 0.0),
-                            child: alamatTujuanField()
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                            child: namaPenerimaField()
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, bottom: 20.0),
-                            child: noHpPenerimaField()
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+    return 
+      FutureBuilder<GeolocationStatus>(
+      future: Geolocator().checkGeolocationPermissionStatus(),
+      builder:
+        (BuildContext context, AsyncSnapshot<GeolocationStatus> snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-                  Padding(
-                    padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 10.0, bottom: 0),
-                    child: dynamicText("Pengirim", fontSize: 20, fontWeight: FontWeight.bold)
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey[300], width: 1),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                            child: namaPengirimField()
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, bottom: 20.0),
-                            child: noHpPengirimField()
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30.0),
-                  //   child: tips()
-                  // ),
-
-                ],
-              ),
+        if (snapshot.data == GeolocationStatus.denied) {
+          return noDeviceLocation(
+            context, 
+            "Pulsa & Paket Data", 
+            "Lokasimu tidak ditemukan", 
+            "Beberapa fitur di aplikasi ini membutuhkan akses lokasi, mohon untuk izinkan akses atau aktifkan di pengaturan smartphone kalian"
+          );
+        }
+        return Scaffold(
+          key: scaffoldState,
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: SvgPicture.asset("assets/icons/back.svg"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-          ),
-          Container(
-            color: Colors.white,
-            child: Column(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Divider(),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.only(bottom: 10, top: 5, left: kDefaultPaddin, right: kDefaultPaddin),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: defaultButton(
-                            context, 
-                            "kirim barang sekarang", 
-                            onPress: () async {
-                              try {
-                                if (alamatTujuanController.text == "") {
-                                  _showSnackBarMessage("Alamat tujuan wajib diisi");
-                                } else if (namaPenerimaController.text == "") {
-                                  _showSnackBarMessage("Nama penerima wajib diisi");
-                                } else if (noHpPenerimaController.text == "") {
-                                  _showSnackBarMessage("No. handphone penerima wajib diisi");
-                                } else if (namaPengirimController.text == "") {
-                                  _showSnackBarMessage("Nama pengirim wajib diisi");
-                                } else if (noHpPengirimController.text == "") {
-                                  _showSnackBarMessage("No. handphone pengirim wajib diisi");
-                                } else {
-                                  // print(f.format(int.parse(nominalController.text)));
-                                  var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                  FlutterOpenWhatsapp.sendSingleMessage(
-                                    nomorAdmin,
-                                    'KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text}'
-                                  );
-                                }
-                                
-                              } catch (e) {
-                                print(e.toString());
-                              }
-                            } 
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+                dynamicText("Kirim Barang (${widget.jenisLayanan})", color: Colors.black),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Image.asset('assets/gifs/tenor.gif', height: 20,),
+                    SizedBox(width: 4),  
+                    Expanded(child: dynamicText(_currentAddress, fontSize: 12, color: Colors.black45)),
+                  ],
+                ),
+
               ],
             ),
-          ),
             
-                    
-        ],
-      ),
+          
+          ),
+          body: Column(
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 10.0, bottom: 0),
+                        child: dynamicText("Tujuan", fontSize: 20, fontWeight: FontWeight.bold)
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey[300], width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              
+                              Padding(
+                                padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 0.0),
+                                child: alamatTujuanField()
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
+                                child: namaPenerimaField()
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, bottom: 20.0),
+                                child: noHpPenerimaField()
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 10.0, bottom: 0),
+                        child: dynamicText("Pengirim", fontSize: 20, fontWeight: FontWeight.bold)
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey[300], width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
+                                child: namaPengirimField()
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, bottom: 20.0),
+                                child: noHpPengirimField()
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30.0),
+                      //   child: tips()
+                      // ),
+
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    Divider(),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.only(bottom: 10, top: 5, left: kDefaultPaddin, right: kDefaultPaddin),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: defaultButton(
+                                context, 
+                                "kirim barang sekarang", 
+                                onPress: () async {
+                                  try {
+                                    if (alamatTujuanController.text == "") {
+                                      _showSnackBarMessage("Alamat tujuan wajib diisi");
+                                    } else if (namaPenerimaController.text == "") {
+                                      _showSnackBarMessage("Nama penerima wajib diisi");
+                                    } else if (noHpPenerimaController.text == "") {
+                                      _showSnackBarMessage("No. handphone penerima wajib diisi");
+                                    } else if (namaPengirimController.text == "") {
+                                      _showSnackBarMessage("Nama pengirim wajib diisi");
+                                    } else if (noHpPengirimController.text == "") {
+                                      _showSnackBarMessage("No. handphone pengirim wajib diisi");
+                                    } else {
+                                      // print(f.format(int.parse(nominalController.text)));
+                                      var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                      FlutterOpenWhatsapp.sendSingleMessage(
+                                        nomorAdmin,
+                                        'KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text}'
+                                      );
+                                    }
+                                    
+                                  } catch (e) {
+                                    print(e.toString());
+                                  }
+                                } 
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+                
+                        
+            ],
+          ),
+        );
+      }
     );
   }
 

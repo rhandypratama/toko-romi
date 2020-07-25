@@ -59,13 +59,23 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
       ),
       body: Column(
         children: <Widget>[
+          Image.asset(
+            // 'assets/images/destination_map_marker.png', 
+            'assets/gifs/kirim_barang.gif', 
+            width: MediaQuery.of(context).size.width,
+            // height: 130,
+            fit: BoxFit.fill
+            // height: 150,
+          ),
+          // defaultLoading(),
           Expanded(
             child: Container(
               color: Colors.white,
               child: ListView(
                 children: <Widget>[
+                  
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 10.0),
+                    padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 20.0, bottom: 10),
                     child: dynamicText("Mau kirim barang kemana?", fontSize: 20, fontWeight: FontWeight.bold)
                   ),
                   Padding(

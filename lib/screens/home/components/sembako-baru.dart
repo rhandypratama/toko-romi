@@ -80,7 +80,8 @@ class SembakoBaruState extends State<SembakoBaru> {
                 .snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  // return Center(child: CircularProgressIndicator());
+                  return defaultLoading();
                 }
                 return ListView.builder(
                   itemCount: snapshot.data.documents.length,
@@ -167,7 +168,8 @@ class SembakoBaruState extends State<SembakoBaru> {
                         bottomLeft: Radius.circular(8.0),
                       ),
                       child: CachedNetworkImage(
-                        placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                        // placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                        placeholder: (context, url) => defaultLoading(),
                         imageUrl: image,
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,

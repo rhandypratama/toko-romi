@@ -38,6 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var v4 = uuid.v4();
     await savePreferences('orderId', stringValue: v4);
   }
+
   
   @override
   void initState() {

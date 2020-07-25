@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:toko_romi/screens/admin/admin-dashboard.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
@@ -24,9 +26,17 @@ class _PulsaScreenState extends State<PulsaScreen> {
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   String currentCat = "";
 
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
+  Position _lastKnownPosition;
+  Position _currentPosition;
+  String _placemark = '';
+  String _currentAddress = '';
+
   @override
   void initState() {
     super.initState();
+    _initLastKnownLocation();
+    _initCurrentLocation();
   }
 
   @override
@@ -44,93 +54,197 @@ class _PulsaScreenState extends State<PulsaScreen> {
   }
   
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldState,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: SvgPicture.asset("assets/icons/back.svg"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: dynamicText("Pulsa & Paket Data", color: Colors.black),
-      
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              color: Colors.white,
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                    child: noHpField()
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                    child: nominalField()
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30.0),
-                    child: tips()
-                  ),
+  void didUpdateWidget(Widget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      _lastKnownPosition = null;
+      _currentPosition = null;
+    });
 
-                ],
-              ),
+    _initLastKnownLocation().then((_) => _initCurrentLocation());
+  }
+  
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(_currentPosition.latitude, _currentPosition.longitude);
+      if (p != null && p.isNotEmpty) {
+        Placemark place = p[0];
+        setState(() {
+          _currentAddress = '${place.thoroughfare}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}';
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Future<void> _onLookupAddress(double lat, double long) async {
+  //   // final List<String> coords = _coordinatesTextController.text.split(',');
+  //   // final double latitude = double.parse(coords[0]);
+  //   // final double longitude = double.parse(coords[1]);
+  //   // final Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
+  //   final List<Placemark> placemarks = await geolocator.placemarkFromCoordinates(lat, long);
+  //   print(placemarks);
+  //   if (placemarks != null && placemarks.isNotEmpty) {
+  //     final Placemark pos = placemarks[0];
+  //     print(placemarks);
+  //     setState(() {
+  //       _placemark = pos.thoroughfare + ', ' + pos.locality;
+  //     });
+  //   }
+  // }
+
+  Future<void> _initLastKnownLocation() async {
+    Position position;
+    try {
+      position = await geolocator.getLastKnownPosition(desiredAccuracy: LocationAccuracy.best);
+    } on PlatformException {
+      position = null;
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _lastKnownPosition = position;
+    });
+  }
+
+  _initCurrentLocation() {
+    // Geolocator()
+    //   ..forceAndroidLocationManager = true
+    geolocator..getCurrentPosition(desiredAccuracy: LocationAccuracy.medium).then((position) {  
+      if (mounted) {
+        setState(() => _currentPosition = position);
+        _getAddressFromLatLng();
+      }
+    }).catchError((e) {
+      //
+    });
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<GeolocationStatus>(
+      future: Geolocator().checkGeolocationPermissionStatus(),
+      builder:
+        (BuildContext context, AsyncSnapshot<GeolocationStatus> snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.data == GeolocationStatus.denied) {
+          return noDeviceLocation(
+            context, 
+            "Pulsa & Paket Data", 
+            "Lokasimu tidak ditemukan", 
+            "Beberapa fitur di aplikasi ini membutuhkan akses lokasi, mohon untuk izinkan akses atau aktifkan di pengaturan smartphone kalian"
+          );
+        }
+
+        return Scaffold(
+          key: scaffoldState,
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: SvgPicture.asset("assets/icons/back.svg"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-          ),
-          Container(
-            color: Colors.white,
-            child: Column(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Divider(),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.only(bottom: 10, top: 5, left: kDefaultPaddin, right: kDefaultPaddin),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: defaultButton(
-                            context, 
-                            "beli pulsa sekarang", 
-                            onPress: () async {
-                              try {
-                                print(userController.text);
-                                if (userController.text == "") {
-                                  _showSnackBarMessage("Nomor handphone wajib diisi");
-                                } else if (currentCat == "") {
-                                  _showSnackBarMessage("Pilih nominal yang tersedia");
-                                } else {
-                                  var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                  FlutterOpenWhatsapp.sendSingleMessage(
-                                    nomorAdmin,
-                                    'PULSA $currentCat | ${userController.text}'
-                                  );
-                                }
-                                
-                              } catch (e) {
-                                print(e.toString());
-                              }
-                            } 
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+                dynamicText("Pulsa & Paket Data", color: Colors.black),
+                // SizedBox(height: 4),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Image.asset('assets/gifs/tenor.gif', height: 20,),
+                    SizedBox(width: 4),  
+                    Expanded(child: dynamicText(_currentAddress, fontSize: 12, color: Colors.black45)),
+                  ],
+                ),
+
               ],
             ),
-          ),
             
-                    
-        ],
-      ),
+          
+          ),
+          body: Column(
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
+                        child: noHpField()
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
+                        child: nominalField()
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30.0),
+                        child: tips()
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    Divider(),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.only(bottom: 10, top: 5, left: kDefaultPaddin, right: kDefaultPaddin),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: defaultButton(
+                                context, 
+                                "beli pulsa sekarang", 
+                                onPress: () async {
+                                  try {
+                                    print(userController.text);
+                                    if (userController.text == "") {
+                                      _showSnackBarMessage("Nomor handphone wajib diisi");
+                                    } else if (currentCat == "") {
+                                      _showSnackBarMessage("Pilih nominal yang tersedia");
+                                    } else {
+                                      var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                      FlutterOpenWhatsapp.sendSingleMessage(
+                                        nomorAdmin,
+                                        'PULSA $currentCat | ${userController.text}'
+                                      );
+                                    }
+                                    
+                                  } catch (e) {
+                                    print(e.toString());
+                                  }
+                                } 
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+                
+                        
+            ],
+          ),
+        );
+      }
     );
   }
 
