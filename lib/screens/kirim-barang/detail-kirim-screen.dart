@@ -30,11 +30,13 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
   final FocusNode _noHpPenerimaFocus = FocusNode();
   final FocusNode _namaPengirimFocus = FocusNode();
   final FocusNode _noHpPengirimFocus = FocusNode();
+  final FocusNode _barangFocus = FocusNode();
   final alamatTujuanController = TextEditingController();
   final namaPenerimaController = TextEditingController();
   final noHpPenerimaController = TextEditingController();
   final namaPengirimController = TextEditingController();
   final noHpPengirimController = TextEditingController();
+  final barangController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   String currentCat = "";
   final f = NumberFormat('#,##0', 'id_ID');
@@ -60,6 +62,7 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
     noHpPenerimaController.dispose();
     namaPengirimController.dispose();
     noHpPengirimController.dispose();
+    barangController.dispose();
   }
 
   @override
@@ -100,16 +103,14 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
     } on PlatformException {
       position = null;
     }
-
     if (!mounted) return;
-
     setState(() {
       _lastKnownPosition = position;
     });
   }
 
   _initCurrentLocation() {
-    geolocator..getCurrentPosition(desiredAccuracy: LocationAccuracy.medium).then((position) {  
+    geolocator..getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((position) {  
       if (mounted) {
         setState(() => _currentPosition = position);
         _getAddressFromLatLng();
@@ -133,7 +134,7 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
         if (snapshot.data == GeolocationStatus.denied) {
           return noDeviceLocation(
             context, 
-            "Pulsa & Paket Data", 
+            "Kirim Barang", 
             "Lokasimu tidak ditemukan", 
             "Beberapa fitur di aplikasi ini membutuhkan akses lokasi, mohon untuk izinkan akses atau aktifkan di pengaturan smartphone kalian"
           );
@@ -236,6 +237,31 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
                           ),
                         ),
                       ),
+
+                      Padding(
+                        padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 10.0, bottom: 0),
+                        child: dynamicText("Detail Barang", fontSize: 20, fontWeight: FontWeight.bold)
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey[300], width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, bottom: 20.0),
+                                child: barangField()
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       
                       // Padding(
                       //   padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30.0),
@@ -279,7 +305,7 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
                                       var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
                                       FlutterOpenWhatsapp.sendSingleMessage(
                                         nomorAdmin,
-                                        'KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text}'
+                                        'KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text} | BARANG : ${barangController.text}'
                                       );
                                     }
                                     
@@ -340,6 +366,27 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
         labelText: "Nama Pengirim",
         labelStyle: TextStyle(fontSize: 16.0),
         contentPadding: EdgeInsets.symmetric(vertical: 10),
+      ),
+      style: TextStyle(fontSize: 20),
+    );   
+  }
+
+  Widget barangField() {
+    return TextFormField(
+      controller: barangController,
+      autocorrect: false,
+      textInputAction: TextInputAction.next,
+      textCapitalization: TextCapitalization.none,
+      focusNode: _barangFocus,
+      onFieldSubmitted: (term) {
+        _barangFocus.unfocus();
+      },
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        labelText: "Jenis barang",
+        labelStyle: TextStyle(fontSize: 16.0),
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
+        helperText: "Contoh : Dokumen surat berharga / meja kursi, dll"
       ),
       style: TextStyle(fontSize: 20),
     );   

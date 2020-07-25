@@ -112,7 +112,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
   _initCurrentLocation() {
     // Geolocator()
     //   ..forceAndroidLocationManager = true
-    geolocator..getCurrentPosition(desiredAccuracy: LocationAccuracy.medium).then((position) {  
+    geolocator..getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((position) {  
       if (mounted) {
         setState(() => _currentPosition = position);
         _getAddressFromLatLng();

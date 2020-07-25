@@ -93,7 +93,11 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
                       "lanjutkan", 
                       onPress: () async {
                         // print(currentCat);
-                        navigationManager(context, DetailKirimScreen(jenisLayanan: currentCat), isPushReplaced: false);
+                        if (currentCat == '') {
+                          _showSnackBarMessage("Pilih jenis layanan yang tersedia");
+                        } else {
+                          navigationManager(context, DetailKirimScreen(jenisLayanan: currentCat), isPushReplaced: false);
+                        }
                       } 
                     ),
                   ),

@@ -43,7 +43,8 @@ class _SembakoScreenState extends State<SembakoScreen> {
                     .snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) {
-                      return Center(child: CircularProgressIndicator());
+                      // return Center(child: CircularProgressIndicator());
+                      return defaultLoading();
                     }
                   
                     return GridView.builder(
@@ -113,7 +114,8 @@ class _SembakoScreenState extends State<SembakoScreen> {
                                             bottomLeft: Radius.circular(8.0),
                                           ),
                                           child: CachedNetworkImage(
-                                            placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                            // placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                            placeholder: (context, url) => defaultLoading(),
                                             imageUrl: (task['image'] == "") ? defaultImage : task['image'],
                                             width: MediaQuery.of(context).size.width,
                                             height: MediaQuery.of(context).size.height,
