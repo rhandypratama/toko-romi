@@ -118,7 +118,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
         _getAddressFromLatLng();
       }
     }).catchError((e) {
-      //
+      print(e.toString());
     });
   }
   
@@ -222,7 +222,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
                                       var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
                                       FlutterOpenWhatsapp.sendSingleMessage(
                                         nomorAdmin,
-                                        'PULSA $currentCat | ${userController.text}'
+                                        'PULSA $currentCat | ${userController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}'
                                       );
                                     }
                                     

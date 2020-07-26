@@ -113,10 +113,12 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
     geolocator..getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((position) {  
       if (mounted) {
         setState(() => _currentPosition = position);
+        print('lat : ${_currentPosition.latitude}');
+        print('long : ${_currentPosition.longitude}');
         _getAddressFromLatLng();
       }
     }).catchError((e) {
-      //
+      print(e.toString());
     });
   }
   
@@ -301,11 +303,11 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
                                     } else if (noHpPengirimController.text == "") {
                                       _showSnackBarMessage("No. handphone pengirim wajib diisi");
                                     } else {
-                                      // print(f.format(int.parse(nominalController.text)));
+                                      // print('KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text} | BARANG : ${barangController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}');
                                       var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
                                       FlutterOpenWhatsapp.sendSingleMessage(
                                         nomorAdmin,
-                                        'KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text} | BARANG : ${barangController.text}'
+                                        'KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text} | BARANG : ${barangController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}'
                                       );
                                     }
                                     

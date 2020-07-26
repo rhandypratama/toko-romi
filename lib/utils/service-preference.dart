@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthService {
+class ServicePreference {
   // Login
   Future<bool> login() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();

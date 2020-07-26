@@ -255,10 +255,38 @@ class _DetailScreenState extends State<DetailScreen> {
                                   Navigator.pop(context);
                                   var subTotal = jumlah.toInt() * widget.price.toInt();
                                   var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                  await FlutterOpenWhatsapp.sendSingleMessage(
-                                    nomorAdmin, 
-                                    '${widget.name} | ${jumlah.round().toString()} | ${f.format(widget.price)} = ${f.format(subTotal)}'
-                                  );
+                                  
+                                  CollectionReference product = firestore.collection('orders');
+                                  DocumentReference result = await product.add(<String, dynamic>{
+                                    'date': DateTime.now(),
+                                    'userId': 'userid',
+                                    'status': 'menunggu proses',
+                                    'location': {
+                                      'lat': '',
+                                      'long': ''
+                                    },
+                                    'service': {
+                                      'type': 'barang',
+                                      'detail': [
+                                        {
+                                          'product': widget.name,
+                                          'qty': jumlah.round(),
+                                          'total': subTotal 
+                                        }
+                                      ]
+                                    },
+                                  });
+                                  if (result.documentID != null) {
+                                    try {
+                                      await FlutterOpenWhatsapp.sendSingleMessage(
+                                        nomorAdmin, 
+                                        '${widget.name} | ${jumlah.round().toString()} | ${f.format(widget.price)} = ${f.format(subTotal)}'
+                                      );
+                                    } catch (e) {
+                                      _showSnackBarMessage(e.toString());
+                                    }
+                                  }
+                                  
                                 });
                                 
                               } catch (e) {

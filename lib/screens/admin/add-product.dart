@@ -376,7 +376,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
               'category': currentCat,
               'name': name,
               'description': description,
-              // 'image': image,
               'image': imgStr,
               'is_publish': true,
               'price': int.parse(price),

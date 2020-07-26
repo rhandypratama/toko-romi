@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/blocs/auth-service.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/screens/onboard/onboard.dart';
 // import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/service-preference.dart';
@@ -16,13 +19,16 @@ Future<void> main() async {
     print('isOnBoard = $onValue');
   });
   // BuildContext context;
-  runApp(new MaterialApp(
+  runApp(StreamProvider<User>.value(
+    value: AuthService().user,
+    child: new MaterialApp(
     debugShowCheckedModeBanner: false,
     // theme: ThemeData(
     //   textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
     //   visualDensity: VisualDensity.adaptivePlatformDensity,
     // ),
     home: (await isOnBoard()) ? new SplashScreen() : new OnboardScreen(),
+    ),
   ));
 }
 

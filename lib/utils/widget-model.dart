@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toko_romi/screens/home/homescreen.dart';
 import 'package:toko_romi/utils/constant.dart';
 
 dynamicText(String text,
@@ -188,6 +189,66 @@ Widget defaultLoading() {
     child: Container(
       // color: Colors.white,
       child: Image.asset('assets/gifs/loader_circle.gif', width: 34)),
+  );
+}
+
+Widget googleSignInButton(BuildContext context, Function onPress) {
+  return OutlineButton(
+    splashColor: Colors.grey,
+    onPressed: onPress,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+    highlightElevation: 0,
+    borderSide: BorderSide(color: Colors.grey),
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image(image: AssetImage("assets/images/google-logo.png"), height: 35.0),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              'Masuk dengan Akun Google',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey,
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget googleSignedInInfo(BuildContext context) {
+  return OutlineButton(
+    splashColor: Colors.grey,
+    onPressed: () {},
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+    highlightElevation: 0,
+    borderSide: BorderSide(color: Colors.grey),
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image(image: AssetImage("assets/images/google-logo.png"), height: 35.0),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              'Masuk dengan Akun Google',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey,
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
   );
 }
 

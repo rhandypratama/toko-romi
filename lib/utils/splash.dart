@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:toko_romi/blocs/auth-service.dart';
 import 'package:toko_romi/screens/home/homescreen.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 import 'package:uuid/uuid.dart';
@@ -12,6 +14,27 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final AuthService _auth = AuthService();
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  bool isSignIn = false;
+  bool cek;
+  
+  Future<void> isGoogleSignIn() async {
+    cek = await googleSignIn.isSignedIn();
+    print('CEK LOGIN :: $cek');
+    if (cek) {
+      Timer(Duration(seconds: 4), () {
+        navigationManager(context, HomeScreen(), isPushReplaced: true);
+      });
+    }
+
+    if (mounted) {
+      setState(() {
+        isSignIn = cek;
+      });
+    }
+    
+  }
 
   Future<String> getSettings() async {
     DocumentSnapshot querySnapshot = await Firestore.instance
@@ -44,14 +67,22 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     getSettings();
+    isGoogleSignIn();
   }
 
-  Timer timer;
-  _SplashScreenState() {
-    timer = new Timer(const Duration(seconds: 4), () async {
-      navigationManager(context, HomeScreen(), isPushReplaced: true);
-    });
-  }
+  // @override
+  // void didUpdateWidget(Widget oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   getSettings();
+  //   isGoogleSignIn();
+  // }
+
+  // Timer timer;
+  // _SplashScreenState() {
+  //   timer = new Timer(const Duration(seconds: 4), () async {
+  //     navigationManager(context, HomeScreen(), isPushReplaced: true);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               padding: EdgeInsets.all(1),
               width: MediaQuery.of(context).size.width,
-              child: dynamicText("Toko Romi", 
+              child: dynamicText("Agen Romi", 
                 color: Colors.black38, 
                 textAlign: TextAlign.center, 
                 fontSize: 26
@@ -90,12 +121,31 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               padding: EdgeInsets.all(0),
               width: MediaQuery.of(context).size.width,
-              child: dynamicText("Belanja atau butuh jasa apapun semakin lebih mudah", 
+              child: dynamicText("Belanja semakin lebih mudah", 
                 color: Colors.black38, 
                 textAlign: TextAlign.center, 
                 fontSize: 12
               )
             ),
+            (!isSignIn) ? Container(
+              padding: EdgeInsets.only(top: 40),
+              child: googleSignInButton(context, () async {
+                // _auth.handleSignIn().whenComplete(() {
+                //   navigationManager(context, HomeScreen(), isPushReplaced: true);
+                // });
+                await _auth.handleSignIn().then((value) => navigationManager(context, HomeScreen(), isPushReplaced: true));
+                // var res = await _auth.handleSignIn();
+                // print(res.photo);
+              }),
+            ) : Container(),
+            // Container(
+            //   padding: EdgeInsets.only(top: 40),
+            //   child: googleSignInButton(context, () async {
+            //     var res = await _auth.handleSignIn();
+            //     print(res);
+            //   }),
+            // )
+            
           ],
         ),
       ),
