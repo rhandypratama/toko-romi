@@ -266,7 +266,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   CollectionReference product = firestore.collection('orders');
                                   DocumentReference result = await product.add(<String, dynamic>{
                                     'date': DateTime.now(),
-                                    'userId': 'userid',
+                                    'userId': userId,
                                     'status': 'menunggu proses',
                                     'location': {
                                       'lat': '',
