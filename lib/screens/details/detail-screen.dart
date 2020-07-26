@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 import 'package:uuid/uuid.dart';
@@ -57,6 +59,9 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+    
     return Scaffold(
       key: scaffoldState,
       resizeToAvoidBottomInset: false,
@@ -223,11 +228,13 @@ class _DetailScreenState extends State<DetailScreen> {
                               color: Colors.black,
                             ),
                             onPressed: () async {
-                              var orderId = await getPreferences('orderId', kType: "string");
-                              print('pref ${orderId}');
+                              // var orderId = await getPreferences('orderId', kType: "string");
+                              // print('pref ${orderId}');
+                              // print(userId); return false;
+
                               CollectionReference carts = firestore.collection('carts');
                               DocumentReference result = await carts.add(<String, dynamic>{
-                                'orderId': orderId,
+                                'userId': userId,
                                 'orderDate': DateTime.now(),
                                 'name': widget.name,
                                 'qty': jumlah.toInt(),

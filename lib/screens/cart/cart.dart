@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-background.dart';
 import 'package:toko_romi/utils/widget-color.dart';
@@ -58,6 +60,9 @@ class _CartScreenState extends State<CartScreen> {
     double widthScreen = mediaQueryData.size.width;
     double heightScreen = mediaQueryData.size.height;
 
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+
     return Scaffold(
       key: scaffoldState,
       // backgroundColor: appColor.colorPrimary,
@@ -67,7 +72,7 @@ class _CartScreenState extends State<CartScreen> {
         child: Stack(
           children: <Widget>[
             WidgetBackground(),
-            _buildWidgetListTodo(widthScreen, heightScreen, context),
+            _buildWidgetListTodo(widthScreen, heightScreen, context, userId),
           ],
         ),
       ),
@@ -83,7 +88,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Container _buildWidgetListTodo(double widthScreen, double heightScreen, BuildContext context) {
+  Container _buildWidgetListTodo(double widthScreen, double heightScreen, BuildContext context, String uid) {
     return Container(
       width: widthScreen,
       height: heightScreen,
@@ -100,7 +105,8 @@ class _CartScreenState extends State<CartScreen> {
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: firestore.collection('carts')
-                .where('orderId', isEqualTo: orderId)
+                // .where('orderId', isEqualTo: orderId)
+                .where('userId', isEqualTo: uid)
                 .orderBy('orderDate')
                 .snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -162,6 +168,7 @@ class _CartScreenState extends State<CartScreen> {
                         leading: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
+                            
                             Container(
                               width: 50.0,
                               height: 50.0,
@@ -171,11 +178,21 @@ class _CartScreenState extends State<CartScreen> {
                                 shape: BoxShape.circle,
                               ),
                               child: Center(
-                                child: task['image'] != "" ? CachedNetworkImage(
-                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                                  imageUrl: task['image'],
-                                  fit: BoxFit.fill,
+                                child: task['image'] != "" ? 
+                                ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  child: CachedNetworkImage(
+                                    placeholder: (context, url) => defaultLoading(),
+                                    imageUrl: task['image'],
+                                    width: 60,
+                                    fit: BoxFit.fill,
+                                  ),
                                 )
+                                // CachedNetworkImage(
+                                //   placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                //   imageUrl: task['image'],
+                                //   fit: BoxFit.fill,
+                                // )
                                 : Icon(Icons.image)
                                 ,
                               ),
@@ -240,7 +257,8 @@ class _CartScreenState extends State<CartScreen> {
 
           StreamBuilder<QuerySnapshot>(
               stream: firestore.collection('carts')
-                .where('orderId', isEqualTo: orderId)
+                // .where('orderId', isEqualTo: orderId)
+                .where('userId', isEqualTo: uid)
                 .orderBy('orderDate')
                 .snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -355,7 +373,7 @@ class _CartScreenState extends State<CartScreen> {
                                   "pesan sekarang",
                                   onPress: () {
                                     if (snapshot.data.documents.length <= 0) {
-                                      _showSnackBarMessage("Data barang belanjamu masih kosong");
+                                      _showSnackBarMessage("Barang belanjamu masih kosong");
                                     } else {
                                       defaultAlert(context, () async {
                                         Navigator.pop(context);
@@ -429,7 +447,7 @@ class _CartScreenState extends State<CartScreen> {
           Navigator.pop(context);
         },
       ),
-      title: dynamicText("Keranjang Belanjamu", color: Colors.black),
+      title: dynamicText("Keranjang Belanja", color: Colors.black),
       // actions: <Widget>[
       //   IconButton(
       //     icon: SvgPicture.asset(

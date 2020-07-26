@@ -81,8 +81,12 @@ class AuthService {
     return currentUser.displayName;
   }
 
-  void signOutGoogle() async{
-    await googleSignIn.signOut();
-    print("User Sign Out");
+  Future signOutGoogle() async {
+    try {
+      await googleSignIn.signOut();
+      print("User Sign Out");
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

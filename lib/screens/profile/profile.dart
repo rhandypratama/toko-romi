@@ -25,7 +25,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  
+  AuthService _auth = AuthService();
   // GoogleSignIn googleSignIn;
   // FirebaseUser user;
 
@@ -66,64 +66,185 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    var photo = (user != null) ? user.photo : '';
+    var photo = (user != null) ? user?.photo : '';
+    var userName = (user != null) ? user?.name : '';
+    var userEmail = (user != null) ? user?.email : '';
+
     return Scaffold(
       appBar: buildAppBar(),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            ClipOval(
-              child: CachedNetworkImage(
-                placeholder: (context, url) => defaultLoading(),
-                imageUrl: photo,
-                width: 60,
-                fit: BoxFit.fill,
-              )
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.all(20.0),
-            //   child: OutlineButton(
-            //     // color: Colors.redAccent,
-            //     splashColor: Colors.grey,
-            //     onPressed: () {
-            //       AuthService().signOutGoogle();
-            //       navigationManager(context, SplashScreen(), isPushReplaced: true);
-            //     },
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(40),
-                  
-            //     ),
-            //     highlightElevation: 0,
-            //     borderSide: BorderSide(color: Colors.red),
-            //     child: Padding(
-            //       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            //       child: Row(
-            //         mainAxisSize: MainAxisSize.min,
-            //         mainAxisAlignment: MainAxisAlignment.center,
-            //         children: <Widget>[
-            //           Image(image: AssetImage("assets/images/google-logo.png"), height: 35.0),
-            //           Padding(
-            //             padding: const EdgeInsets.only(left: 10),
-            //             child: Text(
-            //               'Keluar dari Akun Google',
-            //               style: TextStyle(
-            //                 fontSize: 18,
-            //                 color: Colors.grey,
-            //               ),
-            //             ),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            
-          ],
-        ),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          color: Colors.white,
+          padding: EdgeInsets.only(bottom: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 20, bottom: 10, left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => defaultLoading(),
+                            imageUrl: photo,
+                            width: 60,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        
+                        Container(
+                          margin: EdgeInsets.only(left: 40.0),
+                          height: 20.0,
+                          width: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Colors.amber,
+                            border: Border.all(
+                              color: Colors.white,
+                              style: BorderStyle.solid,
+                              width: 2.0
+                            )
+                          ),
+                        )
+                      ]
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: dynamicText(userName, fontSize: 22)
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                          child: dynamicText(userEmail, fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black45)
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                
+              ),
+
+              Padding(
+                padding: EdgeInsets.only(left: 20, top: 20),
+                child: dynamicText("Informasi Akun", fontSize: 20, fontWeight: FontWeight.bold)
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Icon(Icons.shopping_cart, color: Colors.amber),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(0),
+                          child: dynamicText("Pesanan", fontSize: 16)
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(0),
+                      child: Icon(Icons.arrow_forward_ios, size: 16,),
+                    ),
+                  ],
+                ),
+              ),
+              
+              Padding(
+                padding: EdgeInsets.only(left: 20, top: 20),
+                child: dynamicText("Admin Area", fontSize: 20, fontWeight: FontWeight.bold)
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Icon(Icons.person, color: Colors.amber),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(0),
+                          child: dynamicText("Sign In", fontSize: 16)
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(0),
+                      child: Icon(Icons.arrow_forward_ios, size: 16,),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Icon(Icons.person, color: Colors.amber),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(0),
+                          child: 
+                          GestureDetector(
+                            onTap: () {
+                              _auth.signOutGoogle();
+                            },
+                            child: dynamicText("Sign Out", fontSize: 16),
+                          )
+                          
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(0),
+                      child: Icon(Icons.arrow_forward_ios, size: 16,),
+                    ),
+                  ],
+                ),
+              ),
+
+            ],
+          ),
+        )
       ),
+      
+      // Container(
+      //   width: MediaQuery.of(context).size.width,
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     crossAxisAlignment: CrossAxisAlignment.center,
+      //     children: <Widget>[
+      //       ClipRRect(
+      //         borderRadius: BorderRadius.all(Radius.circular(50)),
+      //         child: CachedNetworkImage(
+      //           placeholder: (context, url) => defaultLoading(),
+      //           imageUrl: photo,
+      //           width: 60,
+      //           fit: BoxFit.fill,
+      //         )
+      //       ),
+            
+      //     ],
+      //   ),
+      // ),
     );
   }
 
@@ -137,7 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Navigator.pop(context);
         },
       ),
-      title: dynamicText("Profil", color: Colors.black87),
+      title: dynamicText("Akun", color: Colors.black87),
       
     );
   }
