@@ -111,7 +111,7 @@ class _CartScreenState extends State<CartScreen> {
                 .snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  print(orderId);
+                  // print(orderId);
                   // return Center(child: CircularProgressIndicator());
                   return maintenancePage("", "Data barang belanjamu masih kosong");
                 }

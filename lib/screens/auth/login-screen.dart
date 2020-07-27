@@ -63,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
           child: Container(
             color: Colors.white,
+            height: MediaQuery.of(context).size.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

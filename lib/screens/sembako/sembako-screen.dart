@@ -332,19 +332,19 @@ class _SembakoScreenState extends State<SembakoScreen> {
         },
       ),
       actions: <Widget>[
+        // IconButton(
+        //   icon: SvgPicture.asset(
+        //     "assets/icons/password.svg",
+        //     color: kTextColor,
+        //   ),
+        //   onPressed: () {
+        //     navigationManager(context, LoginScreen(), isPushReplaced: false);
+        //   },
+        // ),
         IconButton(
           icon: SvgPicture.asset(
-            "assets/icons/password.svg",
-            color: kTextColor,
-          ),
-          onPressed: () {
-            navigationManager(context, LoginScreen(), isPushReplaced: false);
-          },
-        ),
-        IconButton(
-          icon: SvgPicture.asset(
-            "assets/icons/cart.svg",
-            color: kTextColor,
+            "assets/icons/shop.svg",
+            // color: kTextColor,
           ),
           onPressed: () {
             navigationManager(context, CartScreen(), isPushReplaced: false);

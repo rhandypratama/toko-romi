@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:toko_romi/blocs/auth-service.dart';
 import 'package:toko_romi/models/user.dart';
+import 'package:toko_romi/screens/auth/login-screen.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/splash.dart';
 import 'package:toko_romi/utils/widget-model.dart';
@@ -25,6 +26,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   AuthService _auth = AuthService();
   // GoogleSignIn googleSignIn;
   // FirebaseUser user;
@@ -42,7 +44,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //   //   user = a;
   //   // });
   // }
-
+  
+  _showSnackBarMessage(String message) {
+    scaffoldState.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
   
   @override
   void initState() {
@@ -71,6 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var userEmail = (user != null) ? user?.email : '';
 
     return Scaffold(
+      key: scaffoldState,
       appBar: buildAppBar(),
       body: SingleChildScrollView(
         child: Container(
@@ -82,9 +90,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(top: 20, bottom: 10, left: 20, right: 20),
+                color: Colors.yellow,
+                padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Stack(
                       children: <Widget>[
@@ -114,16 +123,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         )
                       ]
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: dynamicText(userName, fontSize: 22)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: dynamicText(userName, fontSize: 22)
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                              child: dynamicText(userEmail, fontSize: 16, color: Colors.black45)
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-                          child: dynamicText(userEmail, fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black45)
+                        Container(
+                          // color: Colors.amber,
+                          width: 120,
+                          child: GestureDetector(
+                            onTap: () {
+                              _auth.signOutGoogle();
+                              _showSnackBarMessage("Berhasil keluar dari akun google. Tutup dan buka lagi aplikasi ini untuk memastikan terjadinya perubahan");
+                            },
+                            child: dynamicText("SIGN OUT",color: Colors.red , textAlign: TextAlign.right),
+                          )
                         ),
                       ],
                     ),
@@ -136,89 +162,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: EdgeInsets.only(left: 20, top: 20),
                 child: dynamicText("Informasi Akun", fontSize: 20, fontWeight: FontWeight.bold)
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Icon(Icons.shopping_cart, color: Colors.amber),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(0),
-                          child: dynamicText("Pesanan", fontSize: 16)
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(0),
-                      child: Icon(Icons.arrow_forward_ios, size: 16,),
-                    ),
-                  ],
-                ),
+              ListTile(
+                leading: Icon(Icons.shopping_cart, color: Colors.amber[800]),
+                title: dynamicText("Pesanan", fontSize: 16),
+                trailing: Icon(Icons.arrow_forward_ios, size: 16,),
+                onTap: () {
+                  
+                },
               ),
               
               Padding(
                 padding: EdgeInsets.only(left: 20, top: 20),
                 child: dynamicText("Admin Area", fontSize: 20, fontWeight: FontWeight.bold)
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Icon(Icons.person, color: Colors.amber),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(0),
-                          child: dynamicText("Sign In", fontSize: 16)
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(0),
-                      child: Icon(Icons.arrow_forward_ios, size: 16,),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Icon(Icons.person, color: Colors.amber),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(0),
-                          child: 
-                          GestureDetector(
-                            onTap: () {
-                              _auth.signOutGoogle();
-                            },
-                            child: dynamicText("Sign Out", fontSize: 16),
-                          )
-                          
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(0),
-                      child: Icon(Icons.arrow_forward_ios, size: 16,),
-                    ),
-                  ],
-                ),
+              ListTile(
+                leading: Icon(Icons.lock, color: Colors.amber[800]),
+                title: dynamicText("Sign In", fontSize: 16),
+                trailing: Icon(Icons.arrow_forward_ios, size: 16,),
+                onTap: () {
+                  navigationManager(context, LoginScreen(), isPushReplaced: false);
+                },
               ),
 
             ],

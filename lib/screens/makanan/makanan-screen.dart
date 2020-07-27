@@ -342,8 +342,8 @@ class _MakananScreenState extends State<MakananScreen> {
         // ),
         IconButton(
           icon: SvgPicture.asset(
-            "assets/icons/cart.svg",
-            color: kTextColor,
+            "assets/icons/shop.svg",
+            // color: kTextColor,
           ),
           onPressed: () {
             navigationManager(context, CartScreen(), isPushReplaced: false);
