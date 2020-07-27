@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/blocs/orderan.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
@@ -51,6 +54,9 @@ class RentalScreenState extends State<RentalScreen> {
   
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+    
     return Scaffold(
       key: scaffoldState,
       appBar: AppBar(
@@ -156,11 +162,14 @@ class RentalScreenState extends State<RentalScreen> {
                                 } else if (jmlPenumpangController.text == "") {
                                   _showSnackBarMessage("Jumlah penumpang wajib diisi");
                                 } else {
-                                  var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                  FlutterOpenWhatsapp.sendSingleMessage(
-                                    nomorAdmin,
-                                    "RENTAL MOBIL TANGGAL : ${pickedDate.day}-${pickedDate.month}-${pickedDate.year} | JAM ${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')} | ${jmlPenumpangController.text} Orang | ASAL : ${asalController.text} | TUJUAN : ${tujuanController.text}"
-                                  );
+                                  var save = await Orderan().saveOrderanJasa(userId, "RENTAL MOBIL TANGGAL : ${pickedDate.day}-${pickedDate.month}-${pickedDate.year} | JAM ${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')} | ${jmlPenumpangController.text} Orang | ASAL : ${asalController.text} | TUJUAN : ${tujuanController.text}");
+                                  if (save.documentID != null) {
+                                    var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                    FlutterOpenWhatsapp.sendSingleMessage(
+                                      nomorAdmin,
+                                      "RENTAL MOBIL TANGGAL : ${pickedDate.day}-${pickedDate.month}-${pickedDate.year} | JAM ${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')} | ${jmlPenumpangController.text} Orang | ASAL : ${asalController.text} | TUJUAN : ${tujuanController.text}"
+                                    );
+                                  }
                                 }
                                 
                               } catch (e) {

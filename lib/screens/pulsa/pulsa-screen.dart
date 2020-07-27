@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/blocs/orderan.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/screens/admin/admin-dashboard.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
@@ -124,6 +127,9 @@ class _PulsaScreenState extends State<PulsaScreen> {
   
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+    
     return FutureBuilder<GeolocationStatus>(
       future: Geolocator().checkGeolocationPermissionStatus(),
       builder:
@@ -213,17 +219,21 @@ class _PulsaScreenState extends State<PulsaScreen> {
                                 "beli pulsa sekarang", 
                                 onPress: () async {
                                   try {
-                                    print(userController.text);
+                                    // print(userController.text);
                                     if (userController.text == "") {
                                       _showSnackBarMessage("Nomor handphone wajib diisi");
                                     } else if (currentCat == "") {
                                       _showSnackBarMessage("Pilih nominal yang tersedia");
                                     } else {
-                                      var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                      FlutterOpenWhatsapp.sendSingleMessage(
-                                        nomorAdmin,
-                                        'PULSA $currentCat | ${userController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}'
-                                      );
+                                      var save = await Orderan().saveOrderanJasa(userId, 'PULSA $currentCat | NO HANDPHONE : ${userController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}');
+                                      if (save.documentID != null) {
+                                        var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                        FlutterOpenWhatsapp.sendSingleMessage(
+                                          nomorAdmin,
+                                          'PULSA $currentCat | NO HANDPHONE : ${userController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}'
+                                        );
+                                      }
+                                      
                                     }
                                     
                                   } catch (e) {

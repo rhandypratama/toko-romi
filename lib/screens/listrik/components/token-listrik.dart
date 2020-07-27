@@ -1,6 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/blocs/orderan.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
@@ -43,6 +46,9 @@ class _TokenListrikState extends State<TokenListrik> {
   
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+    
     return Scaffold(
       key: scaffoldState,
       body: Column(
@@ -93,13 +99,17 @@ class _TokenListrikState extends State<TokenListrik> {
                                 } else if (currentCat == "") {
                                   _showSnackBarMessage("Pilih nominal yang tersedia");
                                 } else {
-                                  print('token ${meterTokenController.text}');
-                                  print('token $currentCat');
-                                  var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                  FlutterOpenWhatsapp.sendSingleMessage(
-                                    nomorAdmin,
-                                    'TOKEN LISTRIK ${meterTokenController.text} | $currentCat'
-                                  );
+                                  // print('token ${meterTokenController.text}');
+                                  // print('token $currentCat');
+                                  var save = await Orderan().saveOrderanJasa(userId, 'TOKEN LISTRIK ${meterTokenController.text} | NOMINAL : $currentCat');
+                                  if (save.documentID != null) {
+                                    var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                    FlutterOpenWhatsapp.sendSingleMessage(
+                                      nomorAdmin,
+                                      'TOKEN LISTRIK ${meterTokenController.text} | NOMINAL : $currentCat'
+                                    );
+                                  }
+                                  
                                 }
                                 
                               } catch (e) {

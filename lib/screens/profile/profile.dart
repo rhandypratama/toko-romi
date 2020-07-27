@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: <Widget>[
               Container(
                 color: Colors.yellow,
-                padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+                padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 10),
                 child: Row(
                   // mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -142,13 +142,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(
                           // color: Colors.amber,
-                          width: 120,
+                          width: 80,
                           child: GestureDetector(
                             onTap: () {
                               _auth.signOutGoogle();
                               _showSnackBarMessage("Berhasil keluar dari akun google. Tutup dan buka lagi aplikasi ini untuk memastikan terjadinya perubahan");
                             },
-                            child: dynamicText("SIGN OUT",color: Colors.red , textAlign: TextAlign.right),
+                            child: dynamicText("SIGN OUT", fontSize: 14, color: Colors.red , textAlign: TextAlign.right),
                           )
                         ),
                       ],
@@ -167,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 title: dynamicText("Pesanan", fontSize: 16),
                 trailing: Icon(Icons.arrow_forward_ios, size: 16,),
                 onTap: () {
-                  
+                  _showSnackBarMessage("Fitur ini belum tersedia");
                 },
               ),
               

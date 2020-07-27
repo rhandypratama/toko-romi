@@ -189,7 +189,7 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
           SizedBox(height: 10,),
           dynamicText("Transaksi di atas jam operasional akan diproses ke-esokan harinya", fontSize: 14),
           SizedBox(height: 10,),
-          dynamicText("Jasa kurir ekspedisi yang tersedia adalah TIKI, JNE, dan KALOG", fontSize: 13, fontWeight: FontWeight.bold),
+          dynamicText("Jasa kurir ekspedisi yang tersedia adalah TIKI, JNE, Kantor POS, dan KALOG", fontSize: 13, fontWeight: FontWeight.bold),
         ],
       ),
     );

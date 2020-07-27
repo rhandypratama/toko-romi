@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/blocs/orderan.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
@@ -41,6 +44,9 @@ class BpjsScreenState extends State<BpjsScreen> {
   
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+    
     return Scaffold(
       key: scaffoldState,
       appBar: AppBar(
@@ -103,11 +109,14 @@ class BpjsScreenState extends State<BpjsScreen> {
                                   _showSnackBarMessage("Pilih bulan yang tersedia");
                                 } else {
                                   // print('BPJS ${noVaController.text} | $currentCat');
-                                  var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                  FlutterOpenWhatsapp.sendSingleMessage(
-                                    nomorAdmin,
-                                    'BPJS ${noVaController.text} | $currentCat'
-                                  );
+                                  var save = await Orderan().saveOrderanJasa(userId, 'BPJS NO. VA : ${noVaController.text} | $currentCat');
+                                  if (save.documentID != null) {
+                                    var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                    FlutterOpenWhatsapp.sendSingleMessage(
+                                      nomorAdmin,
+                                      'BPJS NO. VA : ${noVaController.text} | $currentCat'
+                                    );
+                                  }
                                 }
                                 
                               } catch (e) {

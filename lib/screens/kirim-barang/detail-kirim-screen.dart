@@ -5,6 +5,9 @@ import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/blocs/orderan.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
@@ -124,6 +127,9 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
   
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+    
     return 
       FutureBuilder<GeolocationStatus>(
       future: Geolocator().checkGeolocationPermissionStatus(),
@@ -304,11 +310,15 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
                                       _showSnackBarMessage("No. handphone pengirim wajib diisi");
                                     } else {
                                       // print('KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text} | BARANG : ${barangController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}');
-                                      var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                      FlutterOpenWhatsapp.sendSingleMessage(
-                                        nomorAdmin,
-                                        'KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text} | BARANG : ${barangController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}'
-                                      );
+                                      var save = await Orderan().saveOrderanJasa(userId, 'KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text} | BARANG : ${barangController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}');
+                                      if (save.documentID != null) {
+                                        var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                        FlutterOpenWhatsapp.sendSingleMessage(
+                                          nomorAdmin,
+                                          'KIRIM BARANG (${widget.jenisLayanan}) | NAMA PENERIMA : ${namaPenerimaController.text} | HP PENERIMA : ${noHpPenerimaController.text} | ALAMAT TUJUAN : ${alamatTujuanController.text} | NAMA PENGIRIM : ${namaPengirimController.text} | HP PENGIRIM : ${noHpPengirimController.text} | BARANG : ${barangController.text} | POS : https://maps.google.com?q=${_currentPosition.latitude},${_currentPosition.longitude}'
+                                        );
+                                      }
+                                      
                                     }
                                     
                                   } catch (e) {

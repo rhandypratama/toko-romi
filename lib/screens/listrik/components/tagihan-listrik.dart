@@ -1,6 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/blocs/orderan.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
@@ -39,6 +42,9 @@ class _TagihanListrikState extends State<TagihanListrik> {
   
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+    
     return Scaffold(
       key: scaffoldState,
       body: Column(
@@ -83,12 +89,16 @@ class _TagihanListrikState extends State<TagihanListrik> {
                                 if (meterTagihanController.text == "") {
                                   _showSnackBarMessage("Nomor meter / ID pelanggan wajib diisi");
                                 } else {
-                                  print('tagihan ${meterTagihanController.text}');
-                                  var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                  FlutterOpenWhatsapp.sendSingleMessage(
-                                    nomorAdmin,
-                                    'TAGIHAN LISTRIK ${meterTagihanController.text}'
-                                  );
+                                  // print('tagihan ${meterTagihanController.text}');
+                                  var save = await Orderan().saveOrderanJasa(userId, 'TAGIHAN LISTRIK ${meterTagihanController.text}');
+                                  if (save.documentID != null) {
+                                    var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                    FlutterOpenWhatsapp.sendSingleMessage(
+                                      nomorAdmin,
+                                      'TAGIHAN LISTRIK ${meterTagihanController.text}'
+                                    );
+                                  }
+                                  
                                 }
                                 
                               } catch (e) {

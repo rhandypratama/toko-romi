@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,7 @@ class _CartScreenState extends State<CartScreen> {
   String order = "";
   int subTotal = 0;
   int grandTotal = 0;
+  var arrPesanan = [];
   // String orderId3 = "";
 
   
@@ -336,6 +339,7 @@ class _CartScreenState extends State<CartScreen> {
                   grandTotal = 0;
                 } else {
                   grandTotal = 0;
+                  arrPesanan = [];
                   for(var dt in snapshot.data.documents) {
                     var nama = dt.data['name']; 
                     var jumlah = dt.data['qty'].toString(); 
@@ -344,7 +348,15 @@ class _CartScreenState extends State<CartScreen> {
                     grandTotal += (dt.data['qty'] * dt.data['price']); 
                     order += nama + " | " + jumlah + " | " + f.format(harga) + " = " + f.format(subTotal) + "\n";
                     // print(order);
+                    var obj = [{
+                      'product': nama,
+                      'qty': dt.data['qty'],
+                      'total': (dt.data['qty'] * dt.data['price']),
+                    }];
+                    arrPesanan.addAll(obj);
+
                   }
+                  print(arrPesanan);
                 }
                 
                 return Column(
@@ -371,17 +383,37 @@ class _CartScreenState extends State<CartScreen> {
                                 child: defaultButton(
                                   context, 
                                   "pesan sekarang",
-                                  onPress: () {
+                                  onPress: () async {
                                     if (snapshot.data.documents.length <= 0) {
                                       _showSnackBarMessage("Barang belanjamu masih kosong");
                                     } else {
                                       defaultAlert(context, () async {
-                                        Navigator.pop(context);
-                                        var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                        await FlutterOpenWhatsapp.sendSingleMessage(
-                                          nomorAdmin, 
-                                          '''$order\n----------------------------------\nTOTAL ${f.format(grandTotal)}'''  
-                                        );
+                                        CollectionReference orderan = firestore.collection('orders');
+                                        DocumentReference result = await orderan.add(<String, dynamic>{
+                                          'date': DateTime.now(),
+                                          'userId': uid,
+                                          'status': 'menunggu proses',
+                                          'location': {
+                                            'lat': '',
+                                            'long': ''
+                                          },
+                                          'service': {
+                                            'type': 'barang',
+                                            'detail': arrPesanan
+                                          },
+                                        });
+                                        if (result.documentID != null) {
+                                          try {
+                                            var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                            Navigator.pop(context);
+                                            await FlutterOpenWhatsapp.sendSingleMessage(
+                                              nomorAdmin, 
+                                              '''$order\n----------------------------------\nTOTAL ${f.format(grandTotal)}'''  
+                                            );
+                                          } catch (e) {
+                                            _showSnackBarMessage(e.toString());
+                                          }
+                                        }
                                       });
                                     }
                                   }

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/screens/angsuran-motor/angsuran-motor-screen.dart';
 import 'package:toko_romi/screens/bni/bni-screen.dart';
 import 'package:toko_romi/screens/bpjs/bpjs-screen.dart';
@@ -25,8 +28,13 @@ class _CategoriesState extends State<Categories> {
   List<String> categories = ["Makanan & Minuman", "Pulsa & Paket Data", "Listrik PLN"];
   // By default our first item will be selected
   int selectedIndex = 0;
+  final Firestore firestore = Firestore.instance;
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
@@ -104,7 +112,7 @@ class _CategoriesState extends State<Categories> {
                     "assets/images/more.png",
                     "Lainnya",
                     () {
-                      _showModalSheet();
+                      _showModalSheet(userId);
                     }
                   ),
                 ],
@@ -222,7 +230,7 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
-  void _showModalSheet() {
+  void _showModalSheet(uid) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -299,14 +307,39 @@ class _CategoriesState extends State<Categories> {
                       () {
                         try {
                           confirmStnk(context, () async {
-                            Navigator.pop(context);
-                            var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                            await FlutterOpenWhatsapp.sendSingleMessage(
-                              nomorAdmin, 
-                              'PERPANJANG PAJAK STNK TAHUNAN'
-                            );
+                            CollectionReference orderan = firestore.collection('orders');
+                            DocumentReference result = await orderan.add(<String, dynamic>{
+                              'date': DateTime.now(),
+                              'userId': uid,
+                              'status': 'menunggu proses',
+                              'location': {
+                                'lat': '',
+                                'long': ''
+                              },
+                              'service': {
+                                'type': 'jasa',
+                                'detail': [
+                                  {
+                                    'product': 'Perpanjang STNK Tahunan',
+                                    'qty': 1,
+                                    'total': 0 
+                                  }
+                                ]
+                              },
+                            });
+                            if (result.documentID != null) {
+                              try {
+                                Navigator.pop(context);
+                                var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                await FlutterOpenWhatsapp.sendSingleMessage(
+                                  nomorAdmin, 
+                                  'PERPANJANG STNK TAHUNAN $uid'
+                                );
+                              } catch (e) {
+                                print(e.toString());
+                              }
+                            }
                           });
-                          
                         } catch (e) {
                           print(e.toString());
                         }

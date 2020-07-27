@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_romi/blocs/orderan.dart';
+import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
@@ -47,6 +50,9 @@ class TransferScreenState extends State<TransferScreen> {
   
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var userId = (user != null) ? user?.uid : '';
+    
     return Scaffold(
       key: scaffoldState,
       appBar: AppBar(
@@ -121,11 +127,15 @@ class TransferScreenState extends State<TransferScreen> {
                                   _showSnackBarMessage("Nominal transfer wajib diisi");
                                 } else {
                                   // print(f.format(int.parse(nominalController.text)));
-                                  var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                  FlutterOpenWhatsapp.sendSingleMessage(
-                                    nomorAdmin,
-                                    'TRANSFER $currentCat | ${rekeningController.text} | ${namaPenerimaController.text} | ${f.format(int.parse(nominalController.text))}'
-                                  );
+                                  var save = await Orderan().saveOrderanJasa(userId, 'TRANSFER $currentCat | NO REK : ${rekeningController.text} | NAMA : ${namaPenerimaController.text} | NOMINAL : ${f.format(int.parse(nominalController.text))}');
+                                  if (save.documentID != null) {
+                                    var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                    FlutterOpenWhatsapp.sendSingleMessage(
+                                      nomorAdmin,
+                                      'TRANSFER $currentCat | NO REK : ${rekeningController.text} | NAMA : ${namaPenerimaController.text} | NOMINAL : ${f.format(int.parse(nominalController.text))}'
+                                    );
+                                  }
+                                  
                                 }
                                 
                               } catch (e) {
