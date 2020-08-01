@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:toko_romi/screens/auth/login-screen.dart';
 import 'package:toko_romi/screens/cart/cart.dart';
 import 'package:toko_romi/screens/details/detail-screen.dart';
 import 'package:toko_romi/utils/constant.dart';
@@ -28,8 +27,15 @@ class _SembakoScreenState extends State<SembakoScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 14, right: 14, bottom: 10, top: 0),
-              child: dynamicText("Barang Sembako", fontWeight: FontWeight.bold)
+              padding: const EdgeInsets.only(left: 14, right: 14, bottom: 14, top: 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  dynamicText("Barang Sembako", fontWeight: FontWeight.w600, fontSize: 20),
+                  dynamicText("Penuhi kebutuhanmu dengan #DiRumahAja", fontSize: 12),
+
+                ],
+              )
             ),
         
             Expanded(
@@ -321,37 +327,39 @@ class _SembakoScreenState extends State<SembakoScreen> {
     );
   }
 
-  AppBar buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: SvgPicture.asset("assets/icons/back.svg"),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      actions: <Widget>[
-        // IconButton(
-        //   icon: SvgPicture.asset(
-        //     "assets/icons/password.svg",
-        //     color: kTextColor,
-        //   ),
-        //   onPressed: () {
-        //     navigationManager(context, LoginScreen(), isPushReplaced: false);
-        //   },
-        // ),
-        IconButton(
-          icon: SvgPicture.asset(
-            "assets/icons/shop.svg",
-            // color: kTextColor,
+  buildAppBar() {
+    return PreferredSize(
+      child: Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.grey[100],
+            offset: Offset(0, 2.0),
+            blurRadius: 6.0,
+          )
+        ]),
+        child: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: SvgPicture.asset("assets/icons/back.svg"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            navigationManager(context, CartScreen(), isPushReplaced: false);
-          },
+          actions: <Widget>[
+            IconButton(
+              icon: SvgPicture.asset(
+                "assets/icons/shop.svg",
+              ),
+              onPressed: () {
+                navigationManager(context, CartScreen(), isPushReplaced: false);
+              },
+            ),
+            SizedBox(width: kDefaultPaddin / 2)
+          ],
         ),
-        SizedBox(width: kDefaultPaddin / 2)
-      ],
+      ),
+      preferredSize: Size.fromHeight(kToolbarHeight),
     );
   }
   

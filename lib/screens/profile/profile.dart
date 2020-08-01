@@ -90,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                color: Colors.yellow,
+                // color: Colors.yellow,
                 padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 10),
                 child: Row(
                   // mainAxisAlignment: MainAxisAlignment.start,
@@ -136,21 +136,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-                              child: dynamicText(userEmail, fontSize: 16, color: Colors.black45)
+                              child: dynamicText(userEmail, fontSize: 14, color: Colors.black45)
                             ),
+                            // Padding(
+                            //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                            //   child: GestureDetector(
+                            //     onTap: () {
+                            //       _auth.signOutGoogle();
+                            //       _showSnackBarMessage("Berhasil keluar dari akun google. Tutup dan buka lagi aplikasi ini untuk memastikan terjadinya perubahan");
+                            //     },
+                            //     child: dynamicText("SIGN OUT", fontSize: 12, color: Colors.red , textAlign: TextAlign.right),
+                            //   ),
+                            // ),
                           ],
                         ),
-                        Container(
-                          // color: Colors.amber,
-                          width: 80,
-                          child: GestureDetector(
-                            onTap: () {
-                              _auth.signOutGoogle();
-                              _showSnackBarMessage("Berhasil keluar dari akun google. Tutup dan buka lagi aplikasi ini untuk memastikan terjadinya perubahan");
-                            },
-                            child: dynamicText("SIGN OUT", fontSize: 14, color: Colors.red , textAlign: TextAlign.right),
-                          )
-                        ),
+                        // Container(
+                        //   // color: Colors.amber,
+                        //   width: 80,
+                        //   child: GestureDetector(
+                        //     onTap: () {
+                        //       _auth.signOutGoogle();
+                        //       _showSnackBarMessage("Berhasil keluar dari akun google. Tutup dan buka lagi aplikasi ini untuk memastikan terjadinya perubahan");
+                        //     },
+                        //     child: dynamicText("SIGN OUT", fontSize: 14, color: Colors.red , textAlign: TextAlign.right),
+                        //   )
+                        // ),
                       ],
                     ),
                   ],
@@ -160,10 +170,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               Padding(
                 padding: EdgeInsets.only(left: 20, top: 20),
-                child: dynamicText("Informasi Akun", fontSize: 20, fontWeight: FontWeight.bold)
+                child: dynamicText("Informasi Akun", fontWeight: FontWeight.bold)
               ),
               ListTile(
-                leading: Icon(Icons.shopping_cart, color: Colors.amber[800]),
+                leading: Icon(Icons.shopping_cart, color: Colors.amber[800], size: 20,),
                 title: dynamicText("Pesanan", fontSize: 16),
                 trailing: Icon(Icons.arrow_forward_ios, size: 16,),
                 onTap: () {
@@ -173,10 +183,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               
               Padding(
                 padding: EdgeInsets.only(left: 20, top: 20),
-                child: dynamicText("Admin Area", fontSize: 20, fontWeight: FontWeight.bold)
+                child: dynamicText("Admin Area", fontWeight: FontWeight.bold)
               ),
               ListTile(
-                leading: Icon(Icons.lock, color: Colors.amber[800]),
+                leading: Icon(Icons.lock, color: Colors.amber[800], size: 20,),
                 title: dynamicText("Sign In", fontSize: 16),
                 trailing: Icon(Icons.arrow_forward_ios, size: 16,),
                 onTap: () {
@@ -211,18 +221,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  AppBar buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: SvgPicture.asset("assets/icons/back.svg"),
-        onPressed: () {
-          Navigator.pop(context);
-        },
+  buildAppBar() {
+    return PreferredSize(
+      child: Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.grey[100],
+            offset: Offset(0, 2.0),
+            blurRadius: 6.0,
+          )
+        ]),
+        child: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: SvgPicture.asset("assets/icons/back.svg"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: dynamicText("Akun", fontWeight: FontWeight.w600),
+        ),
       ),
-      title: dynamicText("Akun", color: Colors.black87),
-      
+      preferredSize: Size.fromHeight(kToolbarHeight),
     );
   }
 }

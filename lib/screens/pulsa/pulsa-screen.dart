@@ -149,33 +149,49 @@ class _PulsaScreenState extends State<PulsaScreen> {
 
         return Scaffold(
           key: scaffoldState,
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            leading: IconButton(
-              icon: SvgPicture.asset("assets/icons/back.svg"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                dynamicText("Pulsa & Paket Data", color: Colors.black),
-                // SizedBox(height: 4),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Image.asset('assets/gifs/tenor.gif', height: 20,),
-                    SizedBox(width: 4),  
-                    Expanded(child: dynamicText(_currentAddress, fontSize: 12, color: Colors.black45)),
-                  ],
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(kToolbarHeight),
+            // preferredSize: Size.fromHeight(70),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  color: Colors.grey[100],
+                  offset: Offset(0, 2.0),
+                  blurRadius: 6.0,
+                )
+              ]),
+              child: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: IconButton(
+                  icon: SvgPicture.asset("assets/icons/back.svg"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
+                title: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      dynamicText("Pulsa & Paket Data", fontWeight: FontWeight.w600),
+                      // SizedBox(height: 4),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Image.asset('assets/gifs/tenor.gif', height: 20,),
+                          SizedBox(width: 4),  
+                          Expanded(child: dynamicText(_currentAddress, fontSize: 12, color: Colors.black54)),
+                        ],
+                      ),
 
-              ],
+                    ],
+                  ),
+                ),
+                
+              
+              ),
             ),
-            
-          
           ),
           body: Column(
             children: <Widget>[

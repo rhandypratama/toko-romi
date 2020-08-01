@@ -59,7 +59,13 @@ class SembakoBaruState extends State<SembakoBaru> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                dynamicText("Paling laris dari sembako", fontWeight: FontWeight.bold),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    dynamicText("Paling laris dari sembako", fontWeight: FontWeight.w600),
+                    dynamicText("Penuhi kebutuhanmu dengan #DiRumahAja", fontSize: 10)
+                  ],
+                ),
                 GestureDetector(
                   onTap: () {
                     navigationManager(context, SembakoScreen(), isPushReplaced: false);
@@ -205,7 +211,7 @@ class SembakoBaruState extends State<SembakoBaru> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         dynamicText(name,
-                          fontSize: 14.0,
+                          fontSize: 12.0,
                           // fontWeight: FontWeight.bold,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2

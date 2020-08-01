@@ -75,7 +75,35 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
+      // appBar: buildAppBar(),
+      appBar: PreferredSize(
+        child: Container(
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.grey[100],
+              offset: Offset(0, 2.0),
+              blurRadius: 6.0,
+            )
+          ]),
+          child: AppBar(
+            elevation: 0.0,
+            backgroundColor: Colors.white,
+            actions: <Widget>[
+              IconButton(
+                icon: SvgPicture.asset("assets/icons/user.svg", height: 30,),
+                onPressed: () {
+                  navigationManager(context, ProfileScreen(
+                    // googleSignIn: googleSignIn,
+                    // user: widget.user,
+                  ), isPushReplaced: false);
+                },
+              ),
+              SizedBox(width: kDefaultPaddin / 2)
+            ],
+          ),
+        ),
+        preferredSize: Size.fromHeight(kToolbarHeight),
+      ),
       body: Body(),
     );
   }
@@ -86,20 +114,20 @@ class _HomeScreenState extends State<HomeScreen> {
       elevation: 0,
       // leading: Image.asset('assets/images/user-lock.png', width: 20,),
       
-      leading: Row(
-        children: <Widget>[
-          IconButton(
-            icon: SvgPicture.asset("assets/icons/user.svg", height: 30,),
-            onPressed: () {
-              navigationManager(context, ProfileScreen(
-                // googleSignIn: googleSignIn,
-                // user: widget.user,
-              ), isPushReplaced: false);
-            },
-          ),
+      // leading: Row(
+      //   children: <Widget>[
+      //     IconButton(
+      //       icon: SvgPicture.asset("assets/icons/user.svg", height: 30,),
+      //       onPressed: () {
+      //         navigationManager(context, ProfileScreen(
+      //           // googleSignIn: googleSignIn,
+      //           // user: widget.user,
+      //         ), isPushReplaced: false);
+      //       },
+      //     ),
           
-        ],
-      ), 
+      //   ],
+      // ), 
       // title: GestureDetector(
       //   onTap: () {
       //     SignIn().signOutGoogle();
@@ -119,14 +147,23 @@ class _HomeScreenState extends State<HomeScreen> {
         //     navigationManager(context, LoginScreen(), isPushReplaced: false);
         //   },
         // ),
+        // IconButton(
+        //   icon: SvgPicture.asset(
+        //     "assets/icons/shop.svg",
+        //     // By default our  icon color is white
+        //     // color: kTextColor,
+        //   ),
+        //   onPressed: () {
+        //     navigationManager(context, CartScreen(), isPushReplaced: false);
+        //   },
+        // ),
         IconButton(
-          icon: SvgPicture.asset(
-            "assets/icons/shop.svg",
-            // By default our  icon color is white
-            // color: kTextColor,
-          ),
+          icon: SvgPicture.asset("assets/icons/user.svg", height: 30,),
           onPressed: () {
-            navigationManager(context, CartScreen(), isPushReplaced: false);
+            navigationManager(context, ProfileScreen(
+              // googleSignIn: googleSignIn,
+              // user: widget.user,
+            ), isPushReplaced: false);
           },
         ),
         SizedBox(width: kDefaultPaddin / 2)

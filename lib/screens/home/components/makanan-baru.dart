@@ -29,7 +29,13 @@ class MakananBaruState extends State<MakananBaru> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                dynamicText("Paling laris dari makanan & minuman", fontWeight: FontWeight.bold),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    dynamicText("Makanan & minuman", fontWeight: FontWeight.w600),
+                    dynamicText("Tetap awali #DiRumahAja dengan yang bergizi", fontSize: 10)
+                  ],
+                ),
                 GestureDetector(
                   onTap: () {
                     navigationManager(context, MakananScreen(), isPushReplaced: false);
@@ -174,7 +180,7 @@ class MakananBaruState extends State<MakananBaru> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         dynamicText(name,
-                          fontSize: 14.0,
+                          fontSize: 12.0,
                           // fontWeight: FontWeight.bold,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2

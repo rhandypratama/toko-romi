@@ -5,7 +5,7 @@ import 'package:toko_romi/screens/home/homescreen.dart';
 import 'package:toko_romi/utils/constant.dart';
 
 dynamicText(String text,
-    {Color color,
+    {Color color = Colors.black,
     double fontSize = 16,
     FontWeight fontWeight,
     FontStyle fontStyle = FontStyle.normal,
@@ -13,7 +13,7 @@ dynamicText(String text,
     TextAlign textAlign,
     bool price = false,
     bool number = false,
-    String fontFamily = "Roboto",
+    String fontFamily = "OpenSans",
     int maxLines,
     TextDecoration textDecoration}) {
   

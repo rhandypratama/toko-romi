@@ -36,16 +36,16 @@ class _BodyState extends State<Body> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 14, right: 14, bottom: 0, top: 10),
-              child: Text(
-                "Agen Romi",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 14, right: 14, bottom: 0, top: 10),
+            //   child: Text(
+            //     "Agen Romi",
+            //     style: Theme.of(context)
+            //         .textTheme
+            //         .headline5
+            //         .copyWith(fontWeight: FontWeight.bold),
+            //   ),
+            // ),
             
             Categories(),
             SembakoBaru(),

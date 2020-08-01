@@ -116,11 +116,11 @@ class _CartScreenState extends State<CartScreen> {
                 if (!snapshot.hasData) {
                   // print(orderId);
                   // return Center(child: CircularProgressIndicator());
-                  return maintenancePage("", "Data barang belanjamu masih kosong");
+                  return maintenancePage("", "Barang belanjamu masih kosong");
                 }
                 
                 if (snapshot.data.documents.length <= 0) {
-                  return maintenancePage("", "Data barang belanjamu masih kosong");
+                  return maintenancePage("", "Barang belanjamu masih kosong");
                 } else {
                   // for(var dt in snapshot.data.documents) {
                   //   var nama = dt.data['name']; 
@@ -359,108 +359,120 @@ class _CartScreenState extends State<CartScreen> {
                   print(arrPesanan);
                 }
                 
-                return Column(
-                children: <Widget>[
-                  Divider(),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        color: Colors.white,
-                        padding: const EdgeInsets.only(bottom: 10, top: 5, left: kDefaultPaddin, right: kDefaultPaddin),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(right: 0),
-                              child: dynamicText("Total Rp", color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: kDefaultPaddin),
-                              child: dynamicText("${f.format(grandTotal)}", color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                height: 50,
-                                child: defaultButton(
-                                  context, 
-                                  "pesan sekarang",
-                                  onPress: () async {
-                                    if (snapshot.data.documents.length <= 0) {
-                                      _showSnackBarMessage("Barang belanjamu masih kosong");
-                                    } else {
-                                      defaultAlert(context, () async {
-                                        CollectionReference orderan = firestore.collection('orders');
-                                        DocumentReference result = await orderan.add(<String, dynamic>{
-                                          'date': DateTime.now(),
-                                          'userId': uid,
-                                          'status': 'menunggu proses',
-                                          'location': {
-                                            'lat': '',
-                                            'long': ''
-                                          },
-                                          'service': {
-                                            'type': 'barang',
-                                            'detail': arrPesanan
-                                          },
-                                        });
-                                        if (result.documentID != null) {
-                                          try {
-                                            var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
-                                            Navigator.pop(context);
-                                            await FlutterOpenWhatsapp.sendSingleMessage(
-                                              nomorAdmin, 
-                                              '''$order\n----------------------------------\nTOTAL ${f.format(grandTotal)}'''  
-                                            );
-                                          } catch (e) {
-                                            _showSnackBarMessage(e.toString());
-                                          }
-                                        }
-                                      });
-                                    }
-                                  }
+                return Container(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey[200],
+                      offset: Offset(0, -2.0),
+                      blurRadius: 6.0,
+                    )
+                  ]),
+                  child: Column(
+                  children: <Widget>[
+                    // Divider(),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          color: Colors.white,
+                          padding: const EdgeInsets.only(bottom: 10, top: 10, left: kDefaultPaddin, right: kDefaultPaddin),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: kDefaultPaddin),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    dynamicText("Total", color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 14),
+                                    dynamicText("Rp${f.format(grandTotal)}", color: Colors.pink, fontWeight: FontWeight.w600, fontSize: 22),
+                                  ],
                                 ),
-                                // FlatButton(
-                                //   shape: RoundedRectangleBorder(
-                                //       borderRadius: BorderRadius.circular(8)),
-                                //   color: Colors.pink,
-                                //   onPressed: () async {
-                                //     try {
-                                //       // await FlutterOpenWhatsapp.sendSingleMessage(
-                                //       //   adminNumber, 
-                                //       //   '''$order\n----------------------------------\nTOTAL ${f.format(grandTotal)}'''  
-                                //       // );
-                                //       if (snapshot.data.documents.length <= 0) {
-                                //         _showSnackBarMessage("Data barang belanjamu masih kosong");
-                                //       } else {
-                                //         defaultAlert(context, () async {
-                                //           Navigator.pop(context);
-                                //           await FlutterOpenWhatsapp.sendSingleMessage(
-                                //             adminNumber, 
-                                //             '''$order\n----------------------------------\nTOTAL ${f.format(grandTotal)}'''  
-                                //           );
-                                //         });
-                                //       }
-                                //       // print(order + "\n----------------------------------\nTOTAL " + f.format(grandTotal));
-                                //     } catch (e) {
-                                //       print(e.toString());
-                                //     }
-                                //   },
-                                //   child: Text(
-                                //     "Pesan Sekarang".toUpperCase(),
-                                //     style: TextStyle(
-                                //       fontSize: 16,
-                                //       fontWeight: FontWeight.bold,
-                                //       color: Colors.white,
-                                //     ),
-                                //   ),
-                                // ),
                               ),
-                            ),
-                          ],
+                              
+                              Expanded(
+                                child: SizedBox(
+                                  height: 50,
+                                  child: defaultButton(
+                                    context, 
+                                    "pesan sekarang",
+                                    onPress: () async {
+                                      if (snapshot.data.documents.length <= 0) {
+                                        _showSnackBarMessage("Barang belanjamu masih kosong");
+                                      } else {
+                                        defaultAlert(context, () async {
+                                          CollectionReference orderan = firestore.collection('orders');
+                                          DocumentReference result = await orderan.add(<String, dynamic>{
+                                            'date': DateTime.now(),
+                                            'userId': uid,
+                                            'status': 'menunggu proses',
+                                            'location': {
+                                              'lat': '',
+                                              'long': ''
+                                            },
+                                            'service': {
+                                              'type': 'barang',
+                                              'detail': arrPesanan
+                                            },
+                                          });
+                                          if (result.documentID != null) {
+                                            try {
+                                              var nomorAdmin = await getPreferences('admin-utama', kType: 'string');
+                                              Navigator.pop(context);
+                                              await FlutterOpenWhatsapp.sendSingleMessage(
+                                                nomorAdmin, 
+                                                '''$order\n----------------------------------\nTOTAL ${f.format(grandTotal)}'''  
+                                              );
+                                            } catch (e) {
+                                              _showSnackBarMessage(e.toString());
+                                            }
+                                          }
+                                        });
+                                      }
+                                    }
+                                  ),
+                                  // FlatButton(
+                                  //   shape: RoundedRectangleBorder(
+                                  //       borderRadius: BorderRadius.circular(8)),
+                                  //   color: Colors.pink,
+                                  //   onPressed: () async {
+                                  //     try {
+                                  //       // await FlutterOpenWhatsapp.sendSingleMessage(
+                                  //       //   adminNumber, 
+                                  //       //   '''$order\n----------------------------------\nTOTAL ${f.format(grandTotal)}'''  
+                                  //       // );
+                                  //       if (snapshot.data.documents.length <= 0) {
+                                  //         _showSnackBarMessage("Data barang belanjamu masih kosong");
+                                  //       } else {
+                                  //         defaultAlert(context, () async {
+                                  //           Navigator.pop(context);
+                                  //           await FlutterOpenWhatsapp.sendSingleMessage(
+                                  //             adminNumber, 
+                                  //             '''$order\n----------------------------------\nTOTAL ${f.format(grandTotal)}'''  
+                                  //           );
+                                  //         });
+                                  //       }
+                                  //       // print(order + "\n----------------------------------\nTOTAL " + f.format(grandTotal));
+                                  //     } catch (e) {
+                                  //       print(e.toString());
+                                  //     }
+                                  //   },
+                                  //   child: Text(
+                                  //     "Pesan Sekarang".toUpperCase(),
+                                  //     style: TextStyle(
+                                  //       fontSize: 16,
+                                  //       fontWeight: FontWeight.bold,
+                                  //       color: Colors.white,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                ],
-              );
+                  ],
+              ),
+                );
               }
             
           ),
@@ -469,30 +481,29 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  AppBar buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: SvgPicture.asset("assets/icons/back.svg"),
-        onPressed: () {
-          Navigator.pop(context);
-        },
+  buildAppBar() {
+    return PreferredSize(
+      child: Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.grey[100],
+            offset: Offset(0, 2.0),
+            blurRadius: 6.0,
+          )
+        ]),
+        child: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: SvgPicture.asset("assets/icons/back.svg"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: dynamicText("Keranjang Belanja", fontWeight: FontWeight.w600),
+        ),
       ),
-      title: dynamicText("Keranjang Belanja", color: Colors.black),
-      // actions: <Widget>[
-      //   IconButton(
-      //     icon: SvgPicture.asset(
-      //       "assets/icons/cart.svg",
-      //       // By default our  icon color is white
-      //       color: kTextColor,
-      //     ),
-      //     onPressed: () {
-      //       navigationManager(context, CartScreen(), isPushReplaced: false);
-      //     },
-      //   ),
-      //   SizedBox(width: kDefaultPaddin / 2)
-      // ],
+      preferredSize: Size.fromHeight(kToolbarHeight),
     );
   }
 
