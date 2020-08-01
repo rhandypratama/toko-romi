@@ -161,7 +161,7 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                dynamicText("Kirim Barang (${widget.jenisLayanan})", color: Colors.black),
+                dynamicText("Kirim Barang (${widget.jenisLayanan})", fontWeight: FontWeight.w600),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
@@ -185,7 +185,7 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 10.0, bottom: 0),
-                        child: dynamicText("Tujuan", fontSize: 20, fontWeight: FontWeight.bold)
+                        child: dynamicText("Tujuan", fontSize: 18, fontWeight: FontWeight.w600)
                       ),
                       Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -219,7 +219,7 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
 
                       Padding(
                         padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 10.0, bottom: 0),
-                        child: dynamicText("Pengirim", fontSize: 20, fontWeight: FontWeight.bold)
+                        child: dynamicText("Pengirim", fontSize: 18, fontWeight: FontWeight.w600)
                       ),
                       Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -248,7 +248,7 @@ class DetailKirimScreenState extends State<DetailKirimScreen> {
 
                       Padding(
                         padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 10.0, bottom: 0),
-                        child: dynamicText("Detail Barang", fontSize: 20, fontWeight: FontWeight.bold)
+                        child: dynamicText("Detail Barang", fontSize: 18, fontWeight: FontWeight.w600)
                       ),
                       Padding(
                         padding: const EdgeInsets.all(20.0),

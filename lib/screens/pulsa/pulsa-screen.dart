@@ -153,13 +153,13 @@ class _PulsaScreenState extends State<PulsaScreen> {
             preferredSize: Size.fromHeight(kToolbarHeight),
             // preferredSize: Size.fromHeight(70),
             child: Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.grey[100],
-                  offset: Offset(0, 2.0),
-                  blurRadius: 6.0,
-                )
-              ]),
+              // decoration: BoxDecoration(boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.grey[100],
+              //     offset: Offset(0, 2.0),
+              //     blurRadius: 6.0,
+              //   )
+              // ]),
               child: AppBar(
                 backgroundColor: Colors.white,
                 elevation: 0,

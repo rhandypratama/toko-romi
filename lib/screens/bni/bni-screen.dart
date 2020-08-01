@@ -27,7 +27,7 @@ class _BniScreenState extends State<BniScreen> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.white,
-            title: dynamicText("BNI Laku Pandai", color: Colors.black),
+            title: dynamicText("BNI Laku Pandai", fontWeight: FontWeight.w600),
             leading: IconButton(
               icon: SvgPicture.asset("assets/icons/back.svg"),
               onPressed: () {

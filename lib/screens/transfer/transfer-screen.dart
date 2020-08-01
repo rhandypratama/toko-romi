@@ -64,7 +64,7 @@ class TransferScreenState extends State<TransferScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Transfer Uang", color: Colors.black),
+        title: dynamicText("Transfer Uang", fontWeight: FontWeight.w600),
       
       ),
       body: Column(

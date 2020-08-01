@@ -69,7 +69,7 @@ class ServiceScreenState extends State<ServiceScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Service Elektronik", color: Colors.black),
+        title: dynamicText("Service Elektronik", fontWeight: FontWeight.w600),
       
       ),
       body: Column(

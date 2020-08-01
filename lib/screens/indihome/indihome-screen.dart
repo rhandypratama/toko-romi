@@ -58,7 +58,7 @@ class IndihomeScreenState extends State<IndihomeScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Tagihan Internet Indihome", color: Colors.black),
+        title: dynamicText("Tagihan Internet Indihome", fontWeight: FontWeight.w600),
       
       ),
       body: Column(

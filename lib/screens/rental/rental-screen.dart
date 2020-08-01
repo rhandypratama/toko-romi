@@ -68,7 +68,7 @@ class RentalScreenState extends State<RentalScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Rental Mobil / Sewa Kendaraan", color: Colors.black),
+        title: dynamicText("Rental Mobil / Sewa Kendaraan", fontWeight: FontWeight.w600),
       ),
       body: Column(
         children: <Widget>[

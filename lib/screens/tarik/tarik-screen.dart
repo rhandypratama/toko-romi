@@ -61,7 +61,7 @@ class TarikScreenState extends State<TarikScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Tarik Tunai", color: Colors.black),
+        title: dynamicText("Tarik Tunai", fontWeight: FontWeight.w600),
       
       ),
       body: Column(

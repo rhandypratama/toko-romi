@@ -54,7 +54,7 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Kirim Barang", color: Colors.black),
+        title: dynamicText("Kirim Barang", fontWeight: FontWeight.w600),
       
       ),
       body: Column(
@@ -76,11 +76,11 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
                   
                   Padding(
                     padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 20.0, bottom: 10),
-                    child: dynamicText("Mau kirim barang kemana?", fontSize: 20, fontWeight: FontWeight.bold)
+                    child: dynamicText("Mau kirim barang kemana?", fontSize: 20, fontWeight: FontWeight.w600)
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                    child: dynamicText("Sekarang ada fitur pengeiriman barang di dalam kota dan luar kota loh!", fontSize: 16)
+                    child: dynamicText("Sekarang ada fitur pengeiriman barang di dalam kota dan luar kota loh!", fontSize: 14)
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
@@ -108,11 +108,11 @@ class KirimBarangScreenState extends State<KirimBarangScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: kDefaultPaddin, right: kDefaultPaddin, top: 30.0, bottom:10),
-                    child: dynamicText("Atau mau kirim barang dengan mobil bak?", fontSize: 20, fontWeight: FontWeight.bold)
+                    child: dynamicText("Atau mau kirim barang dengan mobil bak?", fontSize: 20, fontWeight: FontWeight.w600)
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 0.0),
-                    child: dynamicText("Tenang, kita juga menyediakan pengiriman dengan mobil bak", fontSize: 16)
+                    child: dynamicText("Tenang, kita juga menyediakan pengiriman dengan mobil bak", fontSize: 14)
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 10.0),

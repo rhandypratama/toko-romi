@@ -58,7 +58,7 @@ class AngsuranScreenState extends State<AngsuranScreen> {
             Navigator.pop(context);
           },
         ),
-        title: dynamicText("Angsuran Kendaraan", color: Colors.black),
+        title: dynamicText("Angsuran Kendaraan", fontWeight: FontWeight.w600),
       
       ),
       body: Column(

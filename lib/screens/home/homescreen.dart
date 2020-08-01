@@ -78,13 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
       // appBar: buildAppBar(),
       appBar: PreferredSize(
         child: Container(
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: Colors.grey[100],
-              offset: Offset(0, 2.0),
-              blurRadius: 6.0,
-            )
-          ]),
+          // decoration: BoxDecoration(boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey[100],
+          //     offset: Offset(0, 2.0),
+          //     blurRadius: 6.0,
+          //   )
+          // ]),
           child: AppBar(
             elevation: 0.0,
             backgroundColor: Colors.white,

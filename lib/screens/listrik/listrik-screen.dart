@@ -26,7 +26,7 @@ class _ListrikScreenState extends State<ListrikScreen> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.white,
-            title: dynamicText("Listrik PLN", color: Colors.black),
+            title: dynamicText("Listrik PLN", fontWeight: FontWeight.w600),
             leading: IconButton(
               icon: SvgPicture.asset("assets/icons/back.svg"),
               onPressed: () {

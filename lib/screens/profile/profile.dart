@@ -82,16 +82,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: buildAppBar(),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          // height: MediaQuery.of(context).size.height,
           color: Colors.white,
-          padding: EdgeInsets.only(bottom: 20),
+          padding: EdgeInsets.only(bottom: 80),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
                 // color: Colors.yellow,
-                padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 10),
+                padding: EdgeInsets.only(top: 20, bottom: 8, left: 20, right: 10),
                 child: Row(
                   // mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -169,25 +169,87 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
 
               Padding(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                child: dynamicText("Informasi Akun", fontWeight: FontWeight.bold)
+                padding: EdgeInsets.only(left: 20, top: 20, bottom: 10),
+                child: dynamicText("Informasi Akun", fontWeight: FontWeight.w600, fontSize: 18)
               ),
               ListTile(
-                leading: Icon(Icons.shopping_cart, color: Colors.amber[800], size: 20,),
-                title: dynamicText("Pesanan", fontSize: 16),
+                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                dense: true,
+                // leading: Icon(Icons.shopping_cart, color: Colors.amber[800], size: 20,),
+                title: Row(
+                  children: <Widget>[
+                    Icon(Icons.list, color: Colors.amber[800], size: 18,),
+                    SizedBox(width: 10,),
+                    dynamicText("Pesananmu", fontSize: 16),
+                  ],
+                ),
                 trailing: Icon(Icons.arrow_forward_ios, size: 16,),
                 onTap: () {
                   _showSnackBarMessage("Fitur ini belum tersedia");
                 },
               ),
-              
               Padding(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                child: dynamicText("Admin Area", fontWeight: FontWeight.bold)
+                padding: EdgeInsets.only(left: 20, top: 20, bottom: 10),
+                child: dynamicText("Informasi Lainnya", fontWeight: FontWeight.w600, fontSize: 18)
               ),
               ListTile(
-                leading: Icon(Icons.lock, color: Colors.amber[800], size: 20,),
-                title: dynamicText("Sign In", fontSize: 16),
+                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                dense: true,
+                title: Row(
+                  children: <Widget>[
+                    Icon(Icons.help_outline, color: Colors.amber[800], size: 18,),
+                    SizedBox(width: 10,),
+                    dynamicText("Bantuan", fontSize: 16),
+                  ],
+                ),
+                trailing: Icon(Icons.arrow_forward_ios, size: 16,),
+                onTap: () {
+                  _showSnackBarMessage("Fitur ini belum tersedia");
+                },
+              ),
+              Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                dense: true,
+                title: Row(
+                  children: <Widget>[
+                    Icon(Icons.account_balance, color: Colors.amber[800], size: 18,),
+                    SizedBox(width: 10,),
+                    dynamicText("Tentang Agen Romi", fontSize: 16),
+                  ],
+                ),
+                trailing: Icon(Icons.arrow_forward_ios, size: 16,),
+                onTap: () {
+                  _showSnackBarMessage("Fitur ini belum tersedia");
+                },
+              ),
+              Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                dense: true,
+                title: Row(
+                  children: <Widget>[
+                    Icon(Icons.star_border, color: Colors.amber[800], size: 18,),
+                    SizedBox(width: 10,),
+                    dynamicText("Beri Rating", fontSize: 16),
+                  ],
+                ),
+                trailing: Icon(Icons.arrow_forward_ios, size: 16,),
+                onTap: () {
+                  _showSnackBarMessage("Fitur ini belum tersedia");
+                },
+              ),
+              Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                dense: true,
+                title: Row(
+                  children: <Widget>[
+                    Icon(Icons.lock_outline, color: Colors.amber[800], size: 18,),
+                    SizedBox(width: 10,),
+                    dynamicText("Admin Area", fontSize: 16),
+                  ],
+                ),
                 trailing: Icon(Icons.arrow_forward_ios, size: 16,),
                 onTap: () {
                   navigationManager(context, LoginScreen(), isPushReplaced: false);
@@ -224,23 +286,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
   buildAppBar() {
     return PreferredSize(
       child: Container(
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: Colors.grey[100],
-            offset: Offset(0, 2.0),
-            blurRadius: 6.0,
-          )
-        ]),
+        // decoration: BoxDecoration(boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.grey[100],
+        //     offset: Offset(0, 2.0),
+        //     blurRadius: 6.0,
+        //   )
+        // ]),
         child: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.white,
           leading: IconButton(
-            icon: SvgPicture.asset("assets/icons/back.svg"),
+            icon: SvgPicture.asset("assets/icons/back.svg", color: Colors.black,),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          title: dynamicText("Akun", fontWeight: FontWeight.w600),
+          title: dynamicText("Profil", fontWeight: FontWeight.w600),
         ),
       ),
       preferredSize: Size.fromHeight(kToolbarHeight),

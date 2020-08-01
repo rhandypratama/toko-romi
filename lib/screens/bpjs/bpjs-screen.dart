@@ -49,17 +49,29 @@ class BpjsScreenState extends State<BpjsScreen> {
     
     return Scaffold(
       key: scaffoldState,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: SvgPicture.asset("assets/icons/back.svg"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: Container(
+          // decoration: BoxDecoration(boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey[100],
+          //     offset: Offset(0, 2.0),
+          //     blurRadius: 6.0,
+          //   )
+          // ]),
+          child: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: SvgPicture.asset("assets/icons/back.svg"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            title: dynamicText("BPJS Kesehatan", fontWeight: FontWeight.w600),
+          
+          ),
         ),
-        title: dynamicText("BPJS Kesehatan", color: Colors.black),
-      
       ),
       body: Column(
         children: <Widget>[
