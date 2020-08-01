@@ -1,17 +1,14 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toko_romi/models/user.dart';
+import 'package:toko_romi/screens/cart/cart.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
-import 'package:uuid/uuid.dart';
 
 class DetailScreen extends StatefulWidget {
   final String documentId;
@@ -354,14 +351,14 @@ class _DetailScreenState extends State<DetailScreen> {
       automaticallyImplyLeading: true,
 
       leading: Container(
+        padding: EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withOpacity(0.8),
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(8),
-            bottomRight: Radius.circular(8),
+            topRight: Radius.circular(30),
+            bottomRight: Radius.circular(30),
           )
         ),
-        
         // backgroundColor: Colors.white.withOpacity(0.5),
         child: IconButton(
           padding: EdgeInsets.all(0.0),
@@ -376,18 +373,30 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
     
       backgroundColor: Colors.transparent,
-      // actions: <Widget>[
-      //   IconButton(
-      //     icon: SvgPicture.asset("assets/icons/search.svg", color: Colors.black,),
-      //     onPressed: () {},
-      //   ),
-      //   IconButton(
-      //     icon: SvgPicture.asset("assets/icons/cart.svg", color: Colors.black,),
-      //     onPressed: () {},
-      //     color: Colors.black,
-      //   ),
-      //   SizedBox(width: kDefaultPaddin / 2)
-      // ],
+      actions: <Widget>[
+        // IconButton(
+        //   icon: SvgPicture.asset("assets/icons/search.svg", color: Colors.black,),
+        //   onPressed: () {},
+        // ),
+        Container(
+          padding: EdgeInsets.only(left: 10),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.8),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              bottomLeft: Radius.circular(30),
+            )
+          ),
+          child: IconButton(
+            icon: SvgPicture.asset("assets/icons/shop.svg"),
+            onPressed: () {
+              navigationManager(context, CartScreen(), isPushReplaced: false);
+            },
+            // color: Colors.black,
+          ),
+        ),
+        // SizedBox(width: kDefaultPaddin / 2)
+      ],
     );
   }
 
