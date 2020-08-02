@@ -25,6 +25,7 @@ dependencies:
   firebase_auth:
   google_sign_in:
   provider:
+  flutter_swiper:
   
 dev_dependencies:
   flutter_test:
@@ -40,6 +41,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/packs/
+    - assets/images/slider/
     - assets/icons/
     - assets/gifs/
 

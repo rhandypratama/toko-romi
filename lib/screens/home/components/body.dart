@@ -1,17 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// import 'package:toko_romi/models/product.dart';
-// import 'package:toko_romi/screens/details/detail-screen-old.dart';
-import 'package:toko_romi/screens/details/detail-screen.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toko_romi/screens/home/components/carousel.dart';
 import 'package:toko_romi/screens/home/components/categories.dart';
 import 'package:toko_romi/screens/home/components/makanan-baru.dart';
 import 'package:toko_romi/screens/home/components/sembako-baru.dart';
-import 'package:toko_romi/screens/home/components/service-menu.dart';
-// import 'package:toko_romi/screens/home/components/item-card.dart';
-import 'package:toko_romi/utils/constant.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:toko_romi/utils/widget-model.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -22,11 +15,10 @@ class _BodyState extends State<Body> {
   final Firestore firestore = Firestore.instance;
   final f = NumberFormat('#,##0', 'id_ID');
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   savePreferences('cart', stringValue: "");
-  // }
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +38,7 @@ class _BodyState extends State<Body> {
             //         .copyWith(fontWeight: FontWeight.bold),
             //   ),
             // ),
-            
+            // Carousel(),
             Categories(),
             SembakoBaru(),
             MakananBaru(),
