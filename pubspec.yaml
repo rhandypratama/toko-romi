@@ -25,8 +25,9 @@ dependencies:
   firebase_auth:
   google_sign_in:
   provider:
-  flutter_swiper:
+  # flutter_swiper:
   flutter_phoenix: ^0.1.0
+  carousel_slider: ^2.2.1
   
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,12 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toko_romi/screens/home/components/carousel-text.dart';
 import 'package:toko_romi/screens/home/components/carousel.dart';
 import 'package:toko_romi/screens/home/components/categories.dart';
 import 'package:toko_romi/screens/home/components/makanan-baru.dart';
 import 'package:toko_romi/screens/home/components/sembako-baru.dart';
+import 'package:toko_romi/utils/widget-model.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -38,7 +40,20 @@ class _BodyState extends State<Body> {
             //         .copyWith(fontWeight: FontWeight.bold),
             //   ),
             // ),
-            // Carousel(),
+            Padding(
+              padding: EdgeInsets.only(left: 14, right: 14, bottom: 0, top: 0),
+              child: Row(
+                children: <Widget>[
+                  dynamicText("Super Promo", fontWeight: FontWeight.w600),
+                  SizedBox(width: 5,),
+                  Icon(Icons.stars, size: 18, color: Colors.amber,)
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 14, right: 14, bottom: 10, top: 0),
+              child: CarouselText()
+            ),
             Categories(),
             SembakoBaru(),
             MakananBaru(),
