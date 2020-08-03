@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:toko_romi/blocs/auth-service.dart';
 import 'package:toko_romi/screens/home/homescreen.dart';
 import 'package:toko_romi/utils/widget-model.dart';
-import 'package:uuid/uuid.dart';
+// import 'package:uuid/uuid.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -21,6 +21,11 @@ class _SplashScreenState extends State<SplashScreen> {
   
   Future<void> isGoogleSignIn() async {
     cek = await googleSignIn.isSignedIn();
+    // if (mounted) {
+      setState(() {
+        isSignIn = cek;
+      });
+    // }
     print('CEK LOGIN :: $cek');
     if (cek) {
       Timer(Duration(seconds: 4), () {
@@ -28,11 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
       });
     }
 
-    if (mounted) {
-      setState(() {
-        isSignIn = cek;
-      });
-    }
+    
     
   }
 
@@ -53,13 +54,13 @@ class _SplashScreenState extends State<SplashScreen> {
       await savePreferences('admin-utama',stringValue: querySnapshot.data['adminUtama']);
       await savePreferences('admin-test',stringValue: querySnapshot.data['adminTest']);
       await savePreferences('admin-makanan',stringValue: querySnapshot.data['adminMakanan']);
-      print("data setting berhasil disimpan");
+      print("=== DATA SETTING BERHASIL DISIMPAN ===");
     } else {
-      print("data setting masih kosong");
+      print("=== DATA SETTING MASIH KOSONG ===");
     }
-    var uuid = Uuid();
-    var v4 = uuid.v4();
-    await savePreferences('orderId', stringValue: v4);
+    // var uuid = Uuid();
+    // var v4 = uuid.v4();
+    // await savePreferences('orderId', stringValue: v4);
   }
 
   
@@ -73,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
   // @override
   // void didUpdateWidget(Widget oldWidget) {
   //   super.didUpdateWidget(oldWidget);
-  //   getSettings();
+  //   // getSettings();
   //   isGoogleSignIn();
   // }
 

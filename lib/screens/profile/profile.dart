@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -125,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,20 +139,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                             child: dynamicText(userEmail, fontSize: 14, color: Colors.black45)
                           ),
-                          // Padding(
-                          //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-                          //   child: GestureDetector(
-                          //     onTap: () {
-                          //       _auth.signOutGoogle();
-                          //       _showSnackBarMessage("Berhasil keluar dari akun google. Tutup dan buka lagi aplikasi ini untuk memastikan terjadinya perubahan");
-                          //     },
-                          //     child: dynamicText("SIGN OUT", fontSize: 12, color: Colors.red , textAlign: TextAlign.right),
-                          //   ),
-                          // ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                            child: GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      // title: Text('Are You Sure'),
+                                      content: Text('Apakah yakin akan keluar dari akun ini ?'),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text('TIDAK'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        FlatButton(
+                                          child: Text('LANJUTKAN'),
+                                          onPressed: () async {
+                                            _auth.signOutGoogle().then((value) => Phoenix.rebirth(context));
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                
+                                // _showSnackBarMessage("Berhasil keluar dari akun google. Tutup dan buka lagi aplikasi ini untuk memastikan terjadinya perubahan");
+                              },
+                              child: dynamicText("SIGN OUT", fontSize: 12, color: Colors.pink, fontWeight: FontWeight.w600),
+                            ),
+                          ),
                         ],
                       ),
                       // Container(
-                      //   // color: Colors.amber,
+                      //   color: Colors.amber,
                       //   width: 80,
                       //   child: GestureDetector(
                       //     onTap: () {
@@ -236,6 +260,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               trailing: Icon(Icons.arrow_forward_ios, size: 16,),
               onTap: () {
+                // Phoenix.rebirth(context);
                 _showSnackBarMessage("Fitur ini belum tersedia");
               },
             ),

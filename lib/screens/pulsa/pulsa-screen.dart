@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:toko_romi/blocs/orderan.dart';
 import 'package:toko_romi/models/user.dart';
-import 'package:toko_romi/screens/admin/admin-dashboard.dart';
+import 'package:toko_romi/screens/admin/barang.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
@@ -373,46 +373,46 @@ class _PulsaScreenState extends State<PulsaScreen> {
     );
   }
 
-  Widget submitButton() {
-    return RaisedButton(
-      padding: const EdgeInsets.fromLTRB(40.0, 16.0, 30.0, 16.0),
-      color: Colors.yellow,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          bottomLeft: Radius.circular(30.0)
-        )
-      ),
-      onPressed: () {
-        if (userController.text == "admin") {
-          if (passwordController.text == "123456") {
-            Navigator.pop(context);
-            navigationManager(context, AdminScreen(), isPushReplaced: false);
-          } else {
-            _showSnackBarMessage("Password tidak valid");
-            // print("Password tidak valid");
-          }
-        } else {
-          _showSnackBarMessage("Username tidak valid");
-          // print("Username tidak valid");
-        }
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            "Masuk".toUpperCase(),
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-          ),
-          SizedBox(width: 10.0),
-          Icon(
-            Icons.arrow_forward,
-            size: 24.0,
-          )
-        ],
-      ),
-    );
-  } 
+  // Widget submitButton() {
+  //   return RaisedButton(
+  //     padding: const EdgeInsets.fromLTRB(40.0, 16.0, 30.0, 16.0),
+  //     color: Colors.yellow,
+  //     elevation: 0,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.only(
+  //         topLeft: Radius.circular(30.0),
+  //         bottomLeft: Radius.circular(30.0)
+  //       )
+  //     ),
+  //     onPressed: () {
+  //       if (userController.text == "admin") {
+  //         if (passwordController.text == "123456") {
+  //           Navigator.pop(context);
+  //           navigationManager(context, AdminScreen(), isPushReplaced: false);
+  //         } else {
+  //           _showSnackBarMessage("Password tidak valid");
+  //           // print("Password tidak valid");
+  //         }
+  //       } else {
+  //         _showSnackBarMessage("Username tidak valid");
+  //         // print("Username tidak valid");
+  //       }
+  //     },
+  //     child: Row(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: <Widget>[
+  //         Text(
+  //           "Masuk".toUpperCase(),
+  //           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+  //         ),
+  //         SizedBox(width: 10.0),
+  //         Icon(
+  //           Icons.arrow_forward,
+  //           size: 24.0,
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // } 
    
 }

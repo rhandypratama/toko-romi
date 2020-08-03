@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -7,16 +8,22 @@ import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/utils/widget-color.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
-class PesananScreen extends StatefulWidget {
+class DaftarPesananScreen extends StatefulWidget {
   @override
-  _PesananScreenState createState() => _PesananScreenState();
+  _DaftarPesananScreenState createState() => _DaftarPesananScreenState();
 }
 
-class _PesananScreenState extends State<PesananScreen> {
+class _DaftarPesananScreenState extends State<DaftarPesananScreen> {
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   final Firestore firestore = Firestore.instance;
   final AppColor appColor = AppColor();
   var f = NumberFormat('#,##0', 'id_ID');
+
+  void showSnackBarMessage(String message) {
+    scaffoldState.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,42 +36,14 @@ class _PesananScreenState extends State<PesananScreen> {
 
     return Scaffold(
       key: scaffoldState,
-      appBar: buildAppBar(),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            // WidgetBackground(),
             _buildWidgetListTodo(widthScreen, heightScreen, context, userId),
           ],
         ),
       ),
       
-    );
-  }
-
-  buildAppBar() {
-    return PreferredSize(
-      child: Container(
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: Colors.grey[100],
-            offset: Offset(0, 2.0),
-            blurRadius: 6.0,
-          )
-        ]),
-        child: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: SvgPicture.asset("assets/icons/back.svg"),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: dynamicText("Riwayat Pesananmu", fontWeight: FontWeight.w600),
-        ),
-      ),
-      preferredSize: Size.fromHeight(kToolbarHeight),
     );
   }
 
@@ -97,11 +76,6 @@ class _PesananScreenState extends State<PesananScreen> {
                     final formatted = formatter.format(dateNew);
 
                     dynamic getTextWidgets(List<String> strings) {
-                      // return new Column(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: strings.map((item) => new Text(item)).toList()
-                      // );
-
                       List<Widget> list = new List<Widget>();
                       for(var io = 0; io < task['service']['detail'].length; io++){
                           list.add(dynamicText("${task['service']['detail'][io]['product']} | qty : ${task['service']['detail'][io]['qty']} | Total : ${f.format(task['service']['detail'][io]['total'])}", fontSize: 12, color: Colors.white));
@@ -144,7 +118,6 @@ class _PesananScreenState extends State<PesananScreen> {
                                         dynamicText("${task['status'].toString().toUpperCase()}", fontSize: 12, color: Colors.pink, fontWeight: FontWeight.w600)
                                       :
                                         dynamicText("${task['status'].toString().toUpperCase()}", fontSize: 12, color: Colors.green[700], fontWeight: FontWeight.w600)
-                                      // dynamicText("${task['status']}", fontSize: 12, color: Colors.pink),
                                     ],
                                   ),
                                 ),
@@ -181,101 +154,83 @@ class _PesananScreenState extends State<PesananScreen> {
                             ),
                           ),
                           isThreeLine: true,
-                          // leading: Column(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: <Widget>[
-                          //     Container(
-                          //       width: 50.0,
-                          //       height: 50.0,
-                          //       decoration: BoxDecoration(
-                          //         // color: appColor.colorSecondary,
-                          //         color: Colors.grey.shade100,
-                          //         shape: BoxShape.circle,
-                          //       ),
-                          //       child: Center(
-                          //         child: task['image'] != "" ? CachedNetworkImage(
-                          //           placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                          //           imageUrl: task['image'],
-                          //           fit: BoxFit.fill,
-                          //         )
-                          //         : Icon(Icons.image)
-                          //         ,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          // trailing: PopupMenuButton(
-                          //   itemBuilder: (BuildContext context) {
-                          //     return List<PopupMenuEntry<String>>()
-                          //       ..add(PopupMenuItem<String>(
-                          //         value: 'edit',
-                          //         child: Text('Edit'),
-                          //       ))
-                          //       ..add(PopupMenuItem<String>(
-                          //         value: 'delete',
-                          //         child: Text('Hapus'),
-                          //       ));
-                          //   },
-                          //   onSelected: (String value) async {
-                          //     if (value == 'edit') {
-                          //       bool result = await Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(builder: (context) {
-                          //           // return AddProductScreen(
-                          //           //   isEdit: true,
-                          //           //   documentId: document.documentID,
-                          //           //   name: task['name'],
-                          //           //   description: task['description'],
-                          //           //   category: task['category'],
-                          //           //   image: task['image'],
-                          //           //   isPublish: task['is_publish'],
-                          //           //   price: task['price'],
-                          //           //   unit: task['unit'],
-                          //           // );
-                          //         }),
-                          //       );
-                          //       if (result != null && result) {
-                          //         scaffoldState.currentState.showSnackBar(SnackBar(
-                          //           content: Text('Barang berhasil diupdate'),
-                          //         ));
-                          //         setState(() {});
-                          //       }
-                          //     } else if (value == 'delete') {
-
-                          //       // showDialog(
-                          //       //   context: context,
-                          //       //   builder: (BuildContext context) {
-                          //       //     return AlertDialog(
-                          //       //       // title: Text('Are You Sure'),
-                          //       //       content: Text('Apakah yakin akan menghapus ${task['name']}?'),
-                          //       //       actions: <Widget>[
-                          //       //         FlatButton(
-                          //       //           child: Text('TIDAK'),
-                          //       //           onPressed: () {
-                          //       //             Navigator.pop(context);
-                          //       //           },
-                          //       //         ),
-                          //       //         FlatButton(
-                          //       //           child: Text('HAPUS'),
-                          //       //           onPressed: () async {
-                          //       //             if (task['image'] != "") {
-                          //       //               StorageReference storageReference = await FirebaseStorage.instance.getReferenceFromUrl(task['image']);
-                          //       //               print('hapus gambar ${storageReference.path}');
-                          //       //               await storageReference.delete();
-                          //       //             }
-                          //       //             document.reference.delete();
-                          //       //             Navigator.pop(context);
-                          //       //             setState(() {});
-                          //       //           },
-                          //       //         ),
-                          //       //       ],
-                          //       //     );
-                          //       //   },
-                          //       // );
-                          //     }
-                          //   },
-                          //   child: Icon(Icons.more_vert),
-                          // ),
+                          trailing: PopupMenuButton(
+                            itemBuilder: (BuildContext context) {
+                              return List<PopupMenuEntry<String>>()
+                                ..add(PopupMenuItem<String>(
+                                  value: 'menunggu',
+                                  child: Text('Status : Menunggu'),
+                                ))
+                                ..add(PopupMenuItem<String>(
+                                  value: 'selesai',
+                                  child: Text('Status : Selesai'),
+                                ))
+                                ..add(PopupMenuItem<String>(
+                                  value: 'delete',
+                                  child: Text('Hapus'),
+                                ));
+                            },
+                            onSelected: (String value) async {
+                              if (value == 'menunggu') {
+                                DocumentReference documentTask = firestore.document('orders/${document.documentID}');
+                                firestore.runTransaction((transaction) async {
+                                  DocumentSnapshot dt = await transaction.get(documentTask);
+                                  if (dt.exists) {
+                                    await transaction.update(
+                                      documentTask,
+                                      <String, dynamic>{
+                                        'status': 'menunggu proses'
+                                      },
+                                    );
+                                    showSnackBarMessage("Status pesanan berhasil diedit");
+                                    // Navigator.pop(context, true);
+                                  }
+                                });
+                              } else if (value == 'selesai') {
+                                DocumentReference documentTask = firestore.document('orders/${document.documentID}');
+                                firestore.runTransaction((transaction) async {
+                                  DocumentSnapshot dt = await transaction.get(documentTask);
+                                  if (dt.exists) {
+                                    await transaction.update(
+                                      documentTask,
+                                      <String, dynamic>{
+                                        'status': 'selesai'
+                                      },
+                                    );
+                                    showSnackBarMessage("Status pesanan berhasil diedit");
+                                    // Navigator.pop(context, true);
+                                  }
+                                });
+                              } else if (value == 'delete') {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      content: Text('Apakah yakin akan menghapus pesanan ini ?'),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text('TIDAK'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        FlatButton(
+                                          child: Text('HAPUS'),
+                                          onPressed: () {
+                                            document.reference.delete().then((value) {
+                                              Navigator.pop(context);
+                                              showSnackBarMessage("Pesanan berhasil dihapus");
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            child: Icon(Icons.more_vert),
+                          ),
                         ),
                       ),
                     );

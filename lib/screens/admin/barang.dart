@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:toko_romi/screens/admin/add-product.dart';
-import 'package:toko_romi/utils/widget-background.dart';
 import 'package:toko_romi/utils/widget-color.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
-class AdminScreen extends StatefulWidget {
+class BarangScreen extends StatefulWidget {
   @override
-  _AdminScreenState createState() => _AdminScreenState();
+  _BarangScreenState createState() => _BarangScreenState();
 }
 
-class _AdminScreenState extends State<AdminScreen> {
+class _BarangScreenState extends State<BarangScreen> {
   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   final Firestore firestore = Firestore.instance;
   final AppColor appColor = AppColor();
@@ -29,7 +28,7 @@ class _AdminScreenState extends State<AdminScreen> {
     return Scaffold(
       key: scaffoldState,
       // backgroundColor: appColor.colorPrimary,
-      appBar: buildAppBar(),
+      // appBar: buildAppBar(),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -102,21 +101,13 @@ class _AdminScreenState extends State<AdminScreen> {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                dynamicText("Harga : ", fontSize: 14),
+                                dynamicText("Harga : ", fontSize: 12),
                                 dynamicText(
                                   "${f.format(task['price'])} ( ${task['unit'].toString().toUpperCase()} )",
-                                  fontSize: 14
+                                  fontSize: 12
                                 ),
                               ],
                             ),
-                            
-                            // Row(
-                            //   children: <Widget>[
-                            //     dynamicText("Satuan : ", fontSize: 14),
-                            //     dynamicText("${task['unit'].toString().toUpperCase()}", fontSize: 14),
-                            //   ],
-                            // ),
-                            
                           ],
                         ),
                         isThreeLine: false,
@@ -132,10 +123,15 @@ class _AdminScreenState extends State<AdminScreen> {
                                 shape: BoxShape.circle,
                               ),
                               child: Center(
-                                child: task['image'] != "" ? CachedNetworkImage(
-                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                                  imageUrl: task['image'],
-                                  fit: BoxFit.fill,
+                                child: task['image'] != "" ? 
+                                ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  child: CachedNetworkImage(
+                                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                    imageUrl: task['image'],
+                                    fit: BoxFit.fill,
+                                    width: 60,
+                                  )
                                 )
                                 : Icon(Icons.image)
                                 ,

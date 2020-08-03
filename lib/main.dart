@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:toko_romi/blocs/auth-service.dart';
 import 'package:toko_romi/models/user.dart';
@@ -19,17 +20,21 @@ Future<void> main() async {
     print('isOnBoard = $onValue');
   });
   // BuildContext context;
-  runApp(StreamProvider<User>.value(
-    value: AuthService().user,
-    child: new MaterialApp(
-    debugShowCheckedModeBanner: false,
-    // theme: ThemeData(
-    //   textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
-    //   visualDensity: VisualDensity.adaptivePlatformDensity,
-    // ),
-    home: (await isOnBoard()) ? new SplashScreen() : new OnboardScreen(),
-    ),
-  ));
+  runApp(
+    Phoenix(
+      child: StreamProvider<User>.value(
+        value: AuthService().user,
+        child: new MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // theme: ThemeData(
+          //   textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
+          //   visualDensity: VisualDensity.adaptivePlatformDensity,
+          // ),
+          home: (await isOnBoard()) ? new SplashScreen() : new OnboardScreen(),
+        ),
+      ),
+    )
+  );
 }
 
 // void main() { 
