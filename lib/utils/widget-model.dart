@@ -53,6 +53,7 @@ savePreferences(String key,
   {bool boolValue,
   int intValue,
   double doubleValue,
+  List<String> listValue,
   String stringValue}) async {
   var ref = await SharedPreferences.getInstance();
   if (boolValue != null) {
@@ -63,6 +64,8 @@ savePreferences(String key,
     ref.setDouble(key, doubleValue);
   } else if (stringValue != null) {
     ref.setString(key, stringValue);
+  } else if (listValue != null) {
+    ref.setStringList(key, listValue);
   }
 }
 
@@ -79,6 +82,8 @@ getPreferences(String key, {kType}) async {
     value = ref.getString(key);
   } else if (kType == 'bool') {
     value = ref.getBool(key);
+  } else if (kType == 'list') {
+    value = ref.getStringList(key);
   }
   return value;
 }

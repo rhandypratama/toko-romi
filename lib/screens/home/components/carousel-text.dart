@@ -1,8 +1,21 @@
 import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
+// List<String> sliderItems = [];
+
+// Future<List> getPromo() async {
+//   DocumentSnapshot querySnapshot = await Firestore.instance
+//     .collection('settings')
+//     .document('v95naiHwl0OSEdNwSYOk')
+//     .get();
+//   if (querySnapshot.exists) {
+//     sliderItems = querySnapshot.data['promo'];
+//   }
+//   return sliderItems;
+// }
 final List<String> sliderItems = [
   'Dapatkan KUPON UNDIAN disetiap penyaluran bantuan sosial',
   'Kupon akan diundi setiap akhir bulannya',
@@ -10,7 +23,6 @@ final List<String> sliderItems = [
 ];
 
 class CarouselText extends StatelessWidget {
-  
   final List<Widget> imageSliders = sliderItems.map((item) => Container(
     child: Container(
       // color: Colors.green[100],
@@ -74,7 +86,7 @@ class CarouselText extends StatelessWidget {
             child: CarouselSlider(
               options: CarouselOptions(
                 // height: 30,
-                height: 19,
+                height: 21,
                 autoPlayInterval: Duration(seconds: 5),
                 autoPlayAnimationDuration: Duration(milliseconds: 800),
                 autoPlayCurve: Curves.fastOutSlowIn,

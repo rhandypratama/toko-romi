@@ -56,13 +56,14 @@ class _DaftarPesananScreenState extends State<DaftarPesananScreen> {
         children: <Widget>[
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: firestore.collection('orders').where('userId', isEqualTo: uid).orderBy('date', descending: true).snapshots(),
+              // stream: firestore.collection('orders').where('userId', isEqualTo: uid).orderBy('date', descending: true).snapshots(),
+              stream: firestore.collection('orders').orderBy('date', descending: true).snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.data.documents.length <= 0) {
-                  return maintenancePage("", "Riwayat pesananmu kosong");
+                  return maintenancePage("", "Tidak ada data pemesanan");
                 }
                 return ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 4),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,10 @@ class _SplashScreenState extends State<SplashScreen> {
       await savePreferences('admin-utama',stringValue: querySnapshot.data['adminUtama']);
       await savePreferences('admin-test',stringValue: querySnapshot.data['adminTest']);
       await savePreferences('admin-makanan',stringValue: querySnapshot.data['adminMakanan']);
+      await savePreferences('promos', stringValue: json.encode(querySnapshot.data['promo']));
+      // await savePreferences('promos', listValue: querySnapshot.data['promo'].map((document) {
+      //   return document;
+      // }).toList());
       print("=== DATA SETTING BERHASIL DISIMPAN ===");
     } else {
       print("=== DATA SETTING MASIH KOSONG ===");
@@ -61,6 +66,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // var uuid = Uuid();
     // var v4 = uuid.v4();
     // await savePreferences('orderId', stringValue: v4);
+
+    // print(json.encode(querySnapshot.data['promo']));
   }
 
   

@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:toko_romi/screens/home/components/carousel-text.dart';
-import 'package:toko_romi/screens/home/components/carousel.dart';
+// import 'package:toko_romi/screens/home/components/carousel.dart';
 import 'package:toko_romi/screens/home/components/categories.dart';
 import 'package:toko_romi/screens/home/components/makanan-baru.dart';
 import 'package:toko_romi/screens/home/components/sembako-baru.dart';
@@ -16,10 +16,40 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final Firestore firestore = Firestore.instance;
   final f = NumberFormat('#,##0', 'id_ID');
+  // String asd;
+
+  // getPromo() async {
+  //   var c = await getPreferences("promos", kType: "String");
+  //   // if (!mounted) {
+  //   setState(() {
+  //     asd = c; 
+  //   });
+  //   print('asdasdasdasd $asd');
+  //   // }
+  // }
+
+  // Future<List> getPromo() async {
+  //   DocumentSnapshot querySnapshot = await Firestore.instance
+  //     .collection('settings')
+  //     .document('v95naiHwl0OSEdNwSYOk')
+  //     .get();
+  //   // if (querySnapshot.exists &&
+  //   //     querySnapshot.data.containsKey('favorites') &&
+  //   //     querySnapshot.data['favorites'] is List) {
+  //   //   // Create a new List<String> from List<dynamic>
+  //   // }
+  //   if (querySnapshot.exists) {
+  //     return List<String>.from(querySnapshot.data['promo']);
+  //     // print("=== DATA SETTING MASIH KOSONG ===");
+  //   } else {
+  //     print("=== DATA PROMO KOSONG ===");
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
+    // getPromo();
   }
 
   @override

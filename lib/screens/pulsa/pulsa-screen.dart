@@ -316,26 +316,6 @@ class _PulsaScreenState extends State<PulsaScreen> {
     );
   }
 
-  Widget passwordField() {
-    return TextFormField(
-      controller: passwordController,
-      autocorrect: false,
-      // cursorColor: SwatchColor.kLightBlueGreen,
-      focusNode: _passwordFocus,
-      obscureText: true,
-      onFieldSubmitted: (value) {
-        _passwordFocus.unfocus();
-      },
-      decoration: InputDecoration(
-        labelText: "Nominal",
-        labelStyle: TextStyle(fontSize: 20.0),
-        contentPadding: EdgeInsets.symmetric(vertical: 20),
-      ),
-      style: TextStyle(fontSize: 28),
-      
-    );
-      
-  }
 
   Widget tips() {
     return Container(

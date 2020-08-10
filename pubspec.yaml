@@ -14,7 +14,7 @@ dependencies:
   cloud_firestore:
   intl: ^0.16.1
   shared_preferences:
-  flutter_svg:
+  flutter_svg: ^0.18.0
   flutter_launcher_icons:
   cached_network_image:
   flutter_open_whatsapp:
