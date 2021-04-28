@@ -1,15 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:toko_romi/blocs/auth-service.dart';
-import 'package:toko_romi/screens/auth/login-screen.dart';
-import 'package:toko_romi/screens/cart/cart.dart';
+//import 'package:toko_romi/blocs/auth-service.dart';
+//import 'package:toko_romi/screens/auth/login-screen.dart';
+//import 'package:toko_romi/screens/cart/cart.dart';
 import 'package:toko_romi/screens/home/components/body.dart';
 import 'package:toko_romi/screens/profile/profile.dart';
 import 'package:toko_romi/utils/constant.dart';
-import 'package:toko_romi/utils/splash.dart';
+//import 'package:toko_romi/utils/splash.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
 class HomeScreen extends StatefulWidget {

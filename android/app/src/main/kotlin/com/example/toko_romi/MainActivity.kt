@@ -1,4 +1,4 @@
-package com.example.toko_romi
+package com.indotransweb.toko_romi
 
 import io.flutter.embedding.android.FlutterActivity
 

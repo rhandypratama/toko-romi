@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:toko_romi/blocs/orderan.dart';
 import 'package:toko_romi/models/user.dart';
-import 'package:toko_romi/screens/admin/barang.dart';
+//import 'package:toko_romi/screens/admin/barang.dart';
 import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
@@ -21,7 +21,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
   final Color color2 = Color(0xffFA8165);
   final Color color3 = Color(0xffFB8964);
 
-  final FocusNode _passwordFocus = FocusNode();
+//  final FocusNode _passwordFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final userController = TextEditingController();
   final nominalController = TextEditingController();
@@ -32,7 +32,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
   Position _lastKnownPosition;
   Position _currentPosition;
-  String _placemark = '';
+//  String _placemark = '';
   String _currentAddress = '';
 
   @override

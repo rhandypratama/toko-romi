@@ -19,13 +19,13 @@ class _SplashScreenState extends State<SplashScreen> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   bool isSignIn = false;
   bool cek;
-  
+
   Future<void> isGoogleSignIn() async {
     cek = await googleSignIn.isSignedIn();
     // if (mounted) {
-      setState(() {
-        isSignIn = cek;
-      });
+    setState(() {
+      isSignIn = cek;
+    });
     // }
     print('CEK LOGIN :: $cek');
     if (cek) {
@@ -33,16 +33,13 @@ class _SplashScreenState extends State<SplashScreen> {
         navigationManager(context, HomeScreen(), isPushReplaced: true);
       });
     }
-
-    
-    
   }
 
   Future<String> getSettings() async {
     DocumentSnapshot querySnapshot = await Firestore.instance
-      .collection('settings')
-      .document('v95naiHwl0OSEdNwSYOk')
-      .get();
+        .collection('settings')
+        .document('v95naiHwl0OSEdNwSYOk')
+        .get();
     // if (querySnapshot.exists &&
     //     querySnapshot.data.containsKey('favorites') &&
     //     querySnapshot.data['favorites'] is List) {
@@ -50,12 +47,18 @@ class _SplashScreenState extends State<SplashScreen> {
     //   return List<String>.from(querySnapshot.data['favorites']);
     // }
     if (querySnapshot.exists) {
-      await savePreferences('username',stringValue: querySnapshot.data['username']);
-      await savePreferences('password',stringValue: querySnapshot.data['password']);
-      await savePreferences('admin-utama',stringValue: querySnapshot.data['adminUtama']);
-      await savePreferences('admin-test',stringValue: querySnapshot.data['adminTest']);
-      await savePreferences('admin-makanan',stringValue: querySnapshot.data['adminMakanan']);
-      await savePreferences('promos', stringValue: json.encode(querySnapshot.data['promo']));
+      await savePreferences('username',
+          stringValue: querySnapshot.data['username']);
+      await savePreferences('password',
+          stringValue: querySnapshot.data['password']);
+      await savePreferences('admin-utama',
+          stringValue: querySnapshot.data['adminUtama']);
+      await savePreferences('admin-test',
+          stringValue: querySnapshot.data['adminTest']);
+      await savePreferences('admin-makanan',
+          stringValue: querySnapshot.data['adminMakanan']);
+      await savePreferences('promos',
+          stringValue: json.encode(querySnapshot.data['promo']));
       // await savePreferences('promos', listValue: querySnapshot.data['promo'].map((document) {
       //   return document;
       // }).toList());
@@ -70,7 +73,6 @@ class _SplashScreenState extends State<SplashScreen> {
     // print(json.encode(querySnapshot.data['promo']));
   }
 
-  
   @override
   void initState() {
     super.initState();
@@ -118,34 +120,34 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Image.asset('assets/images/toko.png'),
             ),
             Container(
-              padding: EdgeInsets.all(1),
-              width: MediaQuery.of(context).size.width,
-              child: dynamicText("Agen Romi", 
-                color: Colors.black38, 
-                textAlign: TextAlign.center, 
-                fontSize: 26
-              )
-            ),
+                padding: EdgeInsets.all(1),
+                width: MediaQuery.of(context).size.width,
+                child: dynamicText("Agen Romi",
+                    color: Colors.black38,
+                    textAlign: TextAlign.center,
+                    fontSize: 26)),
             Container(
-              padding: EdgeInsets.all(0),
-              width: MediaQuery.of(context).size.width,
-              child: dynamicText("Belanja semakin lebih mudah", 
-                color: Colors.black38, 
-                textAlign: TextAlign.center, 
-                fontSize: 12
-              )
-            ),
-            (!isSignIn) ? Container(
-              padding: EdgeInsets.only(top: 40),
-              child: googleSignInButton(context, () async {
-                // _auth.handleSignIn().whenComplete(() {
-                //   navigationManager(context, HomeScreen(), isPushReplaced: true);
-                // });
-                await _auth.handleSignIn().then((value) => navigationManager(context, HomeScreen(), isPushReplaced: true));
-                // var res = await _auth.handleSignIn();
-                // print(res.photo);
-              }),
-            ) : Container(),
+                padding: EdgeInsets.all(0),
+                width: MediaQuery.of(context).size.width,
+                child: dynamicText("Belanja semakin lebih mudah",
+                    color: Colors.black38,
+                    textAlign: TextAlign.center,
+                    fontSize: 12)),
+            (!isSignIn)
+                ? Container(
+                    padding: EdgeInsets.only(top: 40),
+                    child: googleSignInButton(context, () async {
+                      // _auth.handleSignIn().whenComplete(() {
+                      //   navigationManager(context, HomeScreen(), isPushReplaced: true);
+                      // });
+                      await _auth.handleSignIn().then((value) =>
+                          navigationManager(context, HomeScreen(),
+                              isPushReplaced: true));
+                      // var res = await _auth.handleSignIn();
+                      // print(res.photo);
+                    }),
+                  )
+                : Container(),
             // Container(
             //   padding: EdgeInsets.only(top: 40),
             //   child: googleSignInButton(context, () async {
@@ -153,7 +155,6 @@ class _SplashScreenState extends State<SplashScreen> {
             //     print(res);
             //   }),
             // )
-            
           ],
         ),
       ),

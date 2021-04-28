@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.only(left: 16.0, top: 16.0),
             child: Text(
               'Todo List',
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.headline1,
             ),
           ),
           Expanded(

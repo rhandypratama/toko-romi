@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toko_romi/screens/bni/components/buka-rekening.dart';
 import 'package:toko_romi/screens/bni/components/setor-tunai.dart';
-import 'package:toko_romi/screens/listrik/components/tagihan-listrik.dart';
-import 'package:toko_romi/screens/listrik/components/token-listrik.dart';
+//import 'package:toko_romi/screens/listrik/components/tagihan-listrik.dart';
+//import 'package:toko_romi/screens/listrik/components/token-listrik.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
 class BniScreen extends StatefulWidget {

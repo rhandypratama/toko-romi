@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toko_romi/screens/home/homescreen.dart';
+//import 'package:toko_romi/screens/home/homescreen.dart';
 import 'package:toko_romi/utils/constant.dart';
 
 dynamicText(String text,

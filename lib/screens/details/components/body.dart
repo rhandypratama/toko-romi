@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toko_romi/screens/details/components/add-to-cart.dart';
-import 'package:toko_romi/screens/details/components/color-and-size.dart';
+//import 'package:toko_romi/screens/details/components/color-and-size.dart';
 import 'package:toko_romi/screens/details/components/counter-with-fav-btn.dart';
 import 'package:toko_romi/screens/details/components/product-title-with-image.dart';
 import 'package:toko_romi/utils/constant.dart';

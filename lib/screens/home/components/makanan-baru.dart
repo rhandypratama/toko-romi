@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:toko_romi/screens/details/detail-screen.dart';
 import 'package:toko_romi/screens/makanan/makanan-screen.dart';
-import 'package:toko_romi/utils/constant.dart';
+//import 'package:toko_romi/utils/constant.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
 class MakananBaru extends StatefulWidget {

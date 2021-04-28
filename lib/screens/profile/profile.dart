@@ -1,16 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:toko_romi/blocs/auth-service.dart';
 import 'package:toko_romi/models/user.dart';
 import 'package:toko_romi/screens/auth/login-screen.dart';
 import 'package:toko_romi/screens/pesanan/pesanan.dart';
-import 'package:toko_romi/utils/constant.dart';
-import 'package:toko_romi/utils/splash.dart';
 import 'package:toko_romi/utils/widget-model.dart';
 
 class ProfileScreen extends StatefulWidget {
